@@ -1,0 +1,76 @@
+# gdbinit.sample - copy to ~/.gdbinit on WSL.   cp gdbinit.sample ~/.gdbinit
+#
+# Every line is explained so you can remove what you do not want.
+
+# ---- output ---------------------------------------------------------------------------------
+set pagination off              # long backtraces scroll instead of prompting
+set print pretty on             # structs one field per line
+set print object on             # print the dynamic type via vtable when given a base pointer
+set print vtbl on
+set print array-indexes on      # show [i] = ... for arrays
+set print elements 200          # cap for arrays/strings (default 200; 0 = unlimited)
+set print frame-arguments all   # show full argument values in bt, not "..."
+set disassembly-flavor intel    # mov rax, [rbp-8] instead of movq -8(%rbp), %rax
+
+# ---- behaviour ------------------------------------------------------------------------------
+set confirm off                 # no "Quit anyway? (y or n)"
+set history save on             # keep command history between sessions
+set history size 10000
+set history filename ~/.gdb_history
+set breakpoint pending on       # allow breakpoints in not-yet-loaded shared libraries
+set disable-randomization on    # default: ASLR OFF under gdb (addresses repeat run to run)
+                                # set to off when a bug only appears with real ASLR
+
+# ---- signals the C++ runtime and libraries use internally -----------------------------------
+handle SIGPIPE nostop noprint pass    # writing to a closed socket must not stop the debugger
+handle SIGUSR1 nostop noprint pass
+handle SIGUSR2 nostop noprint pass
+
+# ---- symbols --------------------------------------------------------------------------------
+set debuginfod enabled on       # fetch libc/libstdc++ debug info on demand (Ubuntu's server)
+# set debug-file-directory /usr/lib/debug
+# set sysroot /path/to/copied/root        # for cores from another machine (module 06)
+# set substitute-path /build/server/src /home/me/src   # when the build path differs
+
+# ---- STL pretty printers --------------------------------------------------------------------
+# Ubuntu auto-loads libstdc++ printers from /usr/share/gcc/python via the auto-load path.
+# If `p some_vector` prints raw _M_impl fields, force-load them:
+# python
+# import sys; sys.path.insert(0, '/usr/share/gcc/python')
+# from libstdcxx.v6.printers import register_libstdcxx_printers
+# register_libstdcxx_printers(None)
+# end
+add-auto-load-safe-path /usr/share/gcc/python
+add-auto-load-safe-path /usr/lib/x86_64-linux-gnu
+
+# ---- custom commands ------------------------------------------------------------------------
+define crashinfo
+  # one command that prints what module 06 tells you to look at first
+  printf "---- signal ----\n"
+  p $_siginfo.si_signo
+  p $_siginfo.si_code
+  p $_siginfo._sifields._sigfault.si_addr
+  printf "---- pc and instruction ----\n"
+  p/x $pc
+  x/3i $pc
+  printf "---- backtrace ----\n"
+  bt 15
+end
+document crashinfo
+Print signal number/code, fault address, faulting instruction and a short backtrace.
+end
+
+define allbt
+  thread apply all bt 20
+end
+document allbt
+Backtrace (20 frames) of every thread.
+end
+
+define mutexowner
+  # usage: mutexowner g_sessions_mtx   (a std::mutex or pthread_mutex_t)
+  p $arg0._M_mutex.__data.__owner
+end
+document mutexowner
+Print the LWP id of the thread holding a std::mutex. Match it with `info threads`.
+end

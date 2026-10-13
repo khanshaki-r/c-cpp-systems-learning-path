@@ -1,0 +1,110 @@
+# docker-compose.yml : PostgreSQL 16, a YugabyteDB node and Redis for 07_Databases_Internals.
+#
+# Run inside WSL Ubuntu 24.04 from this folder:
+#     docker compose up -d                 # all three
+#     docker compose up -d yugabyte        # just one service
+#     docker compose ps                    # health
+#     docker compose down                  # stop (data volumes are kept)
+#     docker compose down -v               # stop and delete the data
+#
+# Ports on localhost (chosen so they do not clash with the apt-installed PostgreSQL on 5432):
+#     5434  PostgreSQL 16 in docker   psql -h localhost -p 5434 -U postgres
+#     5433  YugabyteDB YSQL           psql -h localhost -p 5433 -U yugabyte -d yugabyte
+#     15433 yugabyted web UI, 7000 master UI (tablets, leaders), 9000 tserver UI
+#     6379  Redis                     redis-cli -p 6379   (sudo apt install redis-tools)
+#
+# This folder is mounted read-only at /code in every container, so for example:
+#     docker exec -it yb bin/ysqlsh -h yb -f /code/m11_yugabyte_demo.sql
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: pg16
+    environment:
+      POSTGRES_PASSWORD: postgres          # dev only
+      POSTGRES_DB: loans
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_stat_statements,auto_explain
+      - -c
+      - pg_stat_statements.track=all
+      - -c
+      - track_io_timing=on
+      - -c
+      - log_min_duration_statement=200ms
+      - -c
+      - log_lock_waits=on
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./:/code:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 20
+
+  yugabyte:
+    image: yugabytedb/yugabyte:2024.2.0.0-b145
+    container_name: yb
+    hostname: yb
+    command: ["bin/yugabyted", "start", "--background=false", "--base_dir=/home/yugabyte/yb_data"]
+    ports:
+      - "5433:5433"     # YSQL (PostgreSQL wire protocol)
+      - "9042:9042"     # YCQL (Cassandra API), unused in this course
+      - "15433:15433"   # yugabyted UI
+      - "7000:7000"     # yb-master UI
+      - "9000:9000"     # yb-tserver UI
+    volumes:
+      - ybdata:/home/yugabyte/yb_data
+      - ./:/code:ro
+    healthcheck:
+      test: ["CMD-SHELL", "bin/ysqlsh -h yb -c 'select 1' >/dev/null 2>&1"]
+      interval: 10s
+      retries: 30
+
+  # --- Module 11 exercise 3: a 3-node cluster with replication factor 3 -------------------
+  # Uncomment yb2 and yb3, then:  docker compose up -d yugabyte yb2 yb3
+  # and set RF = 3 once all three have joined:
+  #   docker exec -it yb bin/yugabyted configure data_placement --fault_tolerance=zone --rf=3
+  # (with all nodes in one zone, use --fault_tolerance=none and check the UI on :7000).
+  # Then `docker stop yb2` while running a loop of point reads and watch leaders move.
+  #
+  # yb2:
+  #   image: yugabytedb/yugabyte:2024.2.0.0-b145
+  #   container_name: yb2
+  #   hostname: yb2
+  #   command: ["bin/yugabyted", "start", "--background=false", "--join=yb", "--base_dir=/home/yugabyte/yb_data"]
+  #   depends_on: [yugabyte]
+  #   volumes: [yb2data:/home/yugabyte/yb_data]
+  # yb3:
+  #   image: yugabytedb/yugabyte:2024.2.0.0-b145
+  #   container_name: yb3
+  #   hostname: yb3
+  #   command: ["bin/yugabyted", "start", "--background=false", "--join=yb", "--base_dir=/home/yugabyte/yb_data"]
+  #   depends_on: [yugabyte]
+  #   volumes: [yb3data:/home/yugabyte/yb_data]
+
+  redis:
+    image: redis:7.2
+    container_name: redis
+    # AOF on with fsync every second: the durability setting module 13 discusses.
+    command: ["redis-server", "--appendonly", "yes", "--appendfsync", "everysec", "--maxmemory", "256mb",
+              "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+      - ./:/code:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+volumes:
+  pgdata:
+  ybdata:
+  redisdata:
+  # yb2data:
+  # yb3data:

@@ -1,0 +1,86 @@
+# /etc/systemd/system/tcpkv.service - run tcpkv as a supervised system service (module 11).
+#
+# Install (binary from `cmake --install build/release --prefix /usr/local --strip`):
+#   sudo useradd --system --no-create-home --shell /usr/sbin/nologin tcpkv
+#   sudo cp deploy/tcpkv.service /etc/systemd/system/
+#   sudo systemctl daemon-reload            # re-read unit files after any edit
+#   sudo systemctl enable --now tcpkv       # start now and at every boot
+# Operate:
+#   systemctl status tcpkv                  # state, PID, memory, last log lines
+#   journalctl -u tcpkv -f                  # follow logs (stderr goes to the journal)
+#   journalctl -u tcpkv --since "10 min ago" -p warning
+#   sudo systemctl restart tcpkv | stop tcpkv
+#   systemctl show tcpkv -p NRestarts,ExecMainStatus,Result
+#   systemd-analyze security tcpkv          # score the sandboxing below
+# Override locally without editing this file:
+#   sudo systemctl edit tcpkv               # writes /etc/systemd/system/tcpkv.service.d/override.conf
+#
+# WSL: Ubuntu 24.04 on WSL enables systemd by default. If `systemctl` says "System has not been
+# booted with systemd", add [boot] systemd=true to /etc/wsl.conf and run `wsl --shutdown`.
+
+[Unit]
+Description=tcpkv TCP key-value server
+Documentation=https://github.com/<user>/tcpkv
+# Start after the network is configured. network-online waits for a real address.
+Wants=network-online.target
+After=network-online.target
+# Crash-loop guard: more than 5 starts within 60 s -> give up and mark the unit failed,
+# instead of restarting forever and flooding the journal.
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+# Type=exec: "started" once execve() succeeded. tcpkv does not daemonize (no fork, no PID file);
+# under systemd a service stays in the foreground and logs to stderr.
+Type=exec
+ExecStart=/usr/local/bin/tcpkv 7000
+User=tcpkv
+Group=tcpkv
+
+# Restart only on crash or non-zero exit, not after a clean `systemctl stop` (exit 0 on SIGTERM).
+Restart=on-failure
+RestartSec=2
+
+# Stop: SIGTERM to the main process, wait for the graceful drain, then SIGKILL.
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=30
+# Exit status 143 (killed by SIGTERM before the handler was installed) is still a clean stop.
+SuccessExitStatus=143
+
+# Logs: stdout and stderr go to journald; SyslogIdentifier names them in `journalctl`.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tcpkv
+
+# Resource limits. LimitNOFILE is `ulimit -n` for the service (one fd per client connection);
+# the default soft limit of 1024 caps you at about 1000 clients.
+LimitNOFILE=65536
+# Allow core dumps (systemd-coredump or core_pattern decides where they go; 05_Memory_Debugging_RCA).
+LimitCORE=infinity
+# cgroup memory cap: above MemoryMax the kernel OOM-kills inside this service only.
+MemoryMax=512M
+# If the OOM killer kills the process, stop the whole unit (then Restart= applies).
+OOMPolicy=stop
+TasksMax=4096
+
+# Sandboxing: the server only needs to listen on a port and write to stderr.
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+LockPersonality=yes
+# If tcpkv later persists to disk, give it exactly one writable directory:
+# StateDirectory=tcpkv        -> /var/lib/tcpkv, owned by User=, passed as $STATE_DIRECTORY
+
+# Configuration from the environment (secrets belong in a root-only file, not here):
+# EnvironmentFile=-/etc/tcpkv/tcpkv.env
+
+[Install]
+WantedBy=multi-user.target

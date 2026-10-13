@@ -1,0 +1,30 @@
+# .clang-format for tcpkv. Based on Google style with a few readability tweaks.
+# Apply: clang-format -i src/*.cpp include/tcpkv/*.hpp tests/*.cpp
+# Check: clang-format --dry-run --Werror <files>     (what CI runs)
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++17
+IndentWidth: 4
+ColumnLimit: 100
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: true
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: None
+BreakBeforeBraces: Attach
+DerivePointerAlignment: false
+PointerAlignment: Left
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^<.*\.h>'          # C system headers
+    Priority: 1
+  - Regex: '^<.*>'             # C++ standard library
+    Priority: 2
+  - Regex: '^<gtest|^<gmock'   # test framework
+    Priority: 3
+  - Regex: '^"tcpkv/'          # our public headers
+    Priority: 4
+  - Regex: '.*'                # everything else
+    Priority: 5
+SortIncludes: CaseSensitive

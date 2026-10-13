@@ -1,0 +1,45 @@
+name: Code check
+
+on:
+  push:
+    branches: [main]
+    paths: ["LEARNING_PATH/**", "site_tools/check_code.sh", ".github/workflows/code-check.yml"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile-examples:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install headers the examples use
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++ libgtest-dev libgmock-dev libpq-dev libdb-dev
+
+      - name: Compile every C and C++ example
+        run: bash site_tools/check_code.sh
+
+  tcpkv:
+    # The capstone answer key: full build and all tests, plus AddressSanitizer.
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: LEARNING_PATH/10_Capstone_Projects/tcpkv/code
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [debug, asan]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ninja-build g++
+      - run: cmake --preset ${{ matrix.preset }}
+      - run: cmake --build --preset ${{ matrix.preset }} --parallel
+      - run: ctest --preset ${{ matrix.preset }} --parallel 2

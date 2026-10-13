@@ -1,0 +1,83 @@
+# docker-compose.yml - tcpkv + PostgreSQL 16 + Redis 7 for local development.
+#   docker compose up -d --build
+#   docker compose ps
+#   docker compose logs -f tcpkv
+#   docker compose down        (keeps volumes)   |   docker compose down -v   (deletes data)
+#
+# Real secrets never go in this file. For anything beyond local development, move the
+# passwords to an .env file (gitignored) or Docker secrets.
+
+services:
+  tcpkv:
+    build:
+      context: .
+      target: runtime
+    image: tcpkv:dev
+    container_name: tcpkv
+    ports:
+      - "7000:7000"                 # host:container
+    environment:
+      # Service names resolve via Docker's embedded DNS on this compose network.
+      TCPKV_PG_DSN: "postgresql://tcpkv:tcpkv@postgres:5432/tcpkv"
+      TCPKV_REDIS_URL: "redis://redis:6379/0"
+    depends_on:
+      postgres:
+        condition: service_healthy  # wait for pg_isready, not just "container started"
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    stop_grace_period: 30s          # SIGTERM, then 30 s to drain before SIGKILL
+    deploy:
+      resources:
+        limits:
+          memory: 256M              # OOM-kill at 256 MiB: an incident, not a host outage
+          cpus: "1.0"
+    read_only: true                 # the server never writes to its own filesystem
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD-SHELL", "printf 'PING\\n' | nc -w 1 127.0.0.1 7000 | grep -q PONG"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  postgres:
+    image: postgres:16
+    container_name: tcpkv-postgres
+    environment:
+      POSTGRES_USER: tcpkv
+      POSTGRES_PASSWORD: tcpkv      # local dev only
+      POSTGRES_DB: tcpkv
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Scripts here run once, on first start of an empty data directory.
+      - ./deploy/initdb:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"       # loopback only: reachable from WSL/Windows psql, not the LAN
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tcpkv -d tcpkv"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    shm_size: 256m                  # PostgreSQL parallel workers need more than Docker's 64 MB default
+
+  redis:
+    image: redis:7-alpine
+    container_name: tcpkv-redis
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    volumes:
+      - redisdata:/data
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

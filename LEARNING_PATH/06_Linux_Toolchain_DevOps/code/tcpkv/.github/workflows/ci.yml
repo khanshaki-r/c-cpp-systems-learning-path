@@ -1,0 +1,215 @@
+# .github/workflows/ci.yml - tcpkv continuous integration.
+#
+# Jobs:
+#   build-test   gcc-13 and clang-18  x  Debug and RelWithDebInfo, -Werror, ctest, JUnit, ccache
+#   sanitizers   asan (ASan+UBSan) and tsan presets - the same presets developers run locally
+#   valgrind     memcheck over the unit tests (concurrency suite excluded; see nightly)
+#   format       clang-format check
+#   docker       multi-stage image build; pushed to GHCR on main and on v* tags
+#
+# Reproduce any job locally with the commands in its steps; they are plain cmake/ctest.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# A new push to the same branch/PR cancels the run in progress.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CMAKE_GENERATOR: Ninja
+  CCACHE_DIR: ${{ github.workspace }}/.ccache
+
+permissions:
+  contents: read
+
+jobs:
+  # --------------------------------------------------------------------------- build + test matrix
+  build-test:
+    name: ${{ matrix.compiler }} / ${{ matrix.build_type }}
+    runs-on: ubuntu-24.04          # pinned: ubuntu-latest can change compilers under you
+    strategy:
+      fail-fast: false             # see every failure, not just the first
+      matrix:
+        compiler: [gcc, clang]
+        build_type: [Debug, RelWithDebInfo]
+        include:
+          - compiler: gcc
+            cc: gcc-13
+            cxx: g++-13
+          - compiler: clang
+            cc: clang-18
+            cxx: clang++-18
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ninja-build ccache ${{ matrix.cc }} ${{ matrix.cxx }}
+          ${{ matrix.cxx }} --version
+          cmake --version
+
+      - name: Restore ccache and FetchContent cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.CCACHE_DIR }}
+            build/ci/_deps
+          key: ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-${{ hashFiles('CMakeLists.txt', 'CMakePresets.json', 'tests/CMakeLists.txt', 'cmake/**') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.build_type }}-
+
+      - name: Configure
+        run: >
+          cmake -S . -B build/ci -G Ninja
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_C_COMPILER=${{ matrix.cc }}
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          -DTCPKV_WERROR=ON
+          -DTCPKV_BUILD_TESTS=ON
+
+      - name: Build
+        run: cmake --build build/ci --parallel
+
+      - name: ccache statistics
+        run: ccache --show-stats
+
+      - name: Test
+        run: ctest --test-dir build/ci --output-on-failure --parallel 4 --output-junit junit.xml
+
+      - name: Upload test results
+        if: always()               # especially when tests failed
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-${{ matrix.compiler }}-${{ matrix.build_type }}
+          path: build/ci/junit.xml
+          retention-days: 14
+
+      - name: Upload unstripped release binary (for symbolising cores)
+        if: matrix.compiler == 'gcc' && matrix.build_type == 'RelWithDebInfo'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tcpkv-linux-x86_64-unstripped-${{ github.sha }}
+          path: build/ci/tcpkv
+          retention-days: 30
+
+  # --------------------------------------------------------------------------- sanitizers
+  sanitizers:
+    name: ${{ matrix.preset }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [asan, tsan]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ninja
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ninja-build
+      - name: Configure (${{ matrix.preset }})
+        run: cmake --preset ${{ matrix.preset }}
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+      - name: Test
+        # The test preset sets ASAN_OPTIONS / TSAN_OPTIONS with halt_on_error=1.
+        run: ctest --preset ${{ matrix.preset }}
+
+  # --------------------------------------------------------------------------- valgrind
+  valgrind:
+    name: valgrind memcheck
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ninja-build valgrind
+      - name: Configure
+        run: cmake --preset debug
+      - name: Build
+        run: cmake --build --preset debug
+      - name: memcheck
+        # --error-exitcode makes valgrind's own findings fail the step even if tests pass.
+        # Concurrency tests are excluded here (minutes under valgrind); the nightly workflow runs them.
+        run: >
+          valgrind --error-exitcode=1 --leak-check=full --show-leak-kinds=definite
+          --track-origins=yes --errors-for-leak-kinds=definite
+          ./build/debug/tests/tcpkv_tests --gtest_filter='-*Concurrency*'
+
+  # --------------------------------------------------------------------------- formatting
+  format:
+    name: clang-format
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends clang-format-18
+      - name: Check formatting
+        run: |
+          find src include tests -name '*.cpp' -o -name '*.hpp' | \
+            xargs clang-format-18 --dry-run --Werror --style=file
+
+  # --------------------------------------------------------------------------- docker image
+  docker:
+    name: docker image
+    needs: [build-test, sanitizers]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write              # lets GITHUB_TOKEN push to ghcr.io
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'   # fork PRs have no secrets; and we never push from PRs
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image metadata (tags and labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=sha,format=long
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+
+      - name: Build (always) and push (main and tags)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: runtime
+          push: ${{ github.event_name != 'pull_request' }}
+          load: ${{ github.event_name == 'pull_request' }}   # load into local docker for the smoke test
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the final image
+        # Test the artefact we ship, not the build stage: catches missing runtime libraries.
+        run: |
+          IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+          docker run -d --name smoke -p 7000:7000 "$IMAGE"
+          for i in $(seq 1 20); do
+            if printf 'PING\n' | nc -w 1 127.0.0.1 7000 | grep -q PONG; then echo "PONG received"; break; fi
+            sleep 0.5
+            if [ "$i" = 20 ]; then echo "server never answered"; docker logs smoke; exit 1; fi
+          done
+          printf 'SET ci ok\nGET ci\n' | nc -w 1 127.0.0.1 7000 | grep -q 'VALUE ok'
+          docker stop smoke
+          docker inspect --format 'exit={{.State.ExitCode}}' smoke | tee /dev/stderr | grep -q 'exit=0'
