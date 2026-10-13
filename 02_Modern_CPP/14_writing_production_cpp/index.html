@@ -1,0 +1,6924 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 12-week, production-depth curriculum in C, modern C++, concurrency, debugging, Linux, databases and distributed systems.">
+      
+      
+        <meta name="author" content="MD Shakir Khan">
+      
+      
+        <link rel="canonical" href="https://khanshaki-r.github.io/c-cpp-systems-learning-path/02_Modern_CPP/14_writing_production_cpp/">
+      
+      
+        <link rel="prev" href="../13_cpp17_features_tour/">
+      
+      
+        <link rel="next" href="../EXERCISES/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>14. Writing production C++ - C, C++ Systems Engineering Learning Path</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#14-writing-production-c" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-header__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C, C++ Systems Engineering Learning Path
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              14. Writing production C++
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-nav__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    C, C++ Systems Engineering Learning Path
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_Environment_Setup/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Environment Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/01_vscode_wsl_dev_loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. VS Code + WSL development loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/02_verify_toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Verify the toolchain: build, test, debug, sanitize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../12_C_Programming/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Programming
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/01_how_c_really_works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How C really works: from source files to a running program
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/02_types_integers_and_conversions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Types, integers and conversions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/03_pointers_from_the_ground_up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Pointers from the ground up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/04_memory_storage_scope_and_lifetime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Memory: storage duration, scope and lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/05_strings_and_buffers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Strings and buffers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/06_structs_unions_enums_and_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Structs, unions, enums and memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/07_functions_function_pointers_and_callbacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Functions, function pointers and callbacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/08_the_preprocessor_and_macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. The preprocessor and macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/09_undefined_behaviour_and_the_optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Undefined behaviour and the optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/10_error_handling_and_resource_cleanup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling and resource cleanup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/11_data_structures_in_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Data structures in C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/12_memory_allocators_arena_pool_and_malloc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory allocators: arena, pool and a teaching malloc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/13_files_io_and_posix_system_calls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Files, I/O and POSIX system calls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/14_multithreading_in_c_pthreads_and_c11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Multithreading in C: pthreads and C11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/15_reading_debugging_and_changing_legacy_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Reading, debugging and changing legacy C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/16_modern_c_and_the_c_interview_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Modern C and the C interview playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern C++17
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modern C++17
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_from_c_to_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. From C to C++: what actually changes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_classes_constructors_destructors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Classes, constructors and destructors: object lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_raii_the_core_idea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. RAII: the core idea of C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_value_semantics_copy_move/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Value semantics: copy, move, and the rule of five
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_smart_pointers_and_ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Smart pointers and ownership design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_stl_containers_deep_dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. STL containers deep dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_stl_algorithms_lambdas_iterators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. STL algorithms, lambdas and iterators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_templates_and_generic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Templates and generic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_oop_inheritance_virtual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. OOP: inheritance, virtual functions and what a vtable really is
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_error_handling_exceptions_optional_expected/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling: exceptions, optional, variant, error_code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_const_constexpr_and_compile_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. const, constexpr and compile-time programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_memory_model_layout_and_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory layout, allocation and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../13_cpp17_features_tour/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. C++17 features tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Writing production C++
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Writing production C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Project structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-headers-vs-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Headers vs sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-one-definition-rule-odr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The One Definition Rule (ODR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-build-flags-that-find-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Build flags that find bugs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-clang-format-and-clang-tidy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 clang-format and clang-tidy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-c-core-guidelines-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 C++ Core Guidelines highlights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-code-review-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Code review checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-reading-cppreference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Reading cppreference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-api-design-for-a-library-what-tcpkv-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 API design for a library (what tcpkv needs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_Data_Structures_Algorithms/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Structures & Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Structures & Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/01_complexity_and_how_to_think/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Complexity and how to think
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/02_arrays_vectors_two_pointers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Arrays, vectors and two pointers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/03_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Strings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/04_hashing_hash_tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Hashing and hash tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/05_linked_lists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Linked lists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/06_stacks_queues_deques/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Stacks, queues and deques
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/07_recursion_and_backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Recursion and backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/08_sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Sorting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/09_binary_search_and_ordered_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Binary search and ordered data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/10_trees_bst/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Trees and binary search trees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/11_balanced_trees_btree_and_disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Balanced trees, B-trees and disk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/12_heaps_priority_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Heaps and priority queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/13_graphs_bfs_dfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Graphs: BFS, DFS and friends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/14_dynamic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Dynamic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/15_tries_and_bit_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Tries and bit manipulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/16_interview_coding_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Interview coding playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../04_Concurrency/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concurrency
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concurrency
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/01_processes_threads_and_the_os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Processes, threads and the OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/02_data_races_and_why_they_are_ub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Data races and why they are undefined behaviour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/03_mutexes_lock_guard_unique_lock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mutexes: lock_guard, unique_lock, scoped_lock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/04_shared_mutex_and_readers_writers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. shared_mutex and readers-writers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/05_condition_variables_and_wait_objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Condition variables and wait objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/06_deadlocks_livelocks_starvation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Deadlocks, livelocks and starvation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/07_atomics_and_the_memory_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Atomics and the memory model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/08_lock_free_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Lock-free basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/09_thread_pools_and_task_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Thread pools and task queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/10_cache_lines_false_sharing_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Cache lines, false sharing and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/11_concurrency_patterns_for_servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Concurrency patterns for servers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/12_debugging_concurrency_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Debugging concurrency bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/13_win32_concurrency_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Win32 concurrency reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_Memory_Debugging_RCA/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory, Debugging & RCA
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Memory, Debugging & RCA
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/01_process_memory_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Process memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/02_stack_frames_and_calling_conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Stack frames and calling conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/03_the_heap_malloc_internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The heap: malloc internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/04_the_catalogue_of_memory_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. The catalogue of memory bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/05_gdb_from_zero_to_fluent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. gdb from zero to fluent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/06_core_dumps_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Core dumps on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/07_windbg_and_windows_crash_dumps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. WinDbg and Windows crash dumps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/08_valgrind_and_sanitizers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Valgrind and the sanitizers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/09_leaks_and_memory_growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Leaks and memory growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/10_concurrency_crashes_and_heisenbugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Concurrency crashes and Heisenbugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/11_production_incident_triage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Production incident triage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/12_writing_a_formal_rca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Writing a formal RCA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/13_defensive_design_to_prevent_the_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Defensive design to prevent the bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_Linux_Toolchain_DevOps/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux, Toolchain & DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux, Toolchain & DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/01_linux_for_a_windows_developer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Linux for a Windows developer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/02_how_a_cpp_program_is_built/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. How a C++ program is built
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/03_gcc_and_clang_flags_that_matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. GCC and Clang flags that matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/04_make_and_cmake_from_scratch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Make and CMake from scratch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/05_testing_with_googletest_and_ctest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Testing with GoogleTest and ctest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/06_git_properly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Git properly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/07_debugging_and_profiling_tools_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Debugging and profiling tools on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/08_docker_for_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Docker for C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/09_ci_cd_github_actions_and_azure_devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. CI/CD with GitHub Actions and Azure DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/10_scripting_bash_and_a_little_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Scripting: bash for build, test and deploy, and a little Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/11_linux_systems_programming_essentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Linux systems programming essentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/12_windows_toolchain_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../07_Databases_Internals/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Internals
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database Internals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/01_what_a_database_actually_does/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. What a database actually does
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/02_storage_engines_pages_and_heap_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Storage engines: pages and heap files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/03_btree_indexes_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. B-tree indexes in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/04_wal_and_crash_recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Write-ahead logging and crash recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/05_transactions_acid_mvcc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Transactions, ACID and MVCC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/06_query_planning_and_explain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Query planning and reading EXPLAIN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/07_sql_for_backend_engineers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. SQL for backend engineers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/08_plpgsql_stored_procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. PL/pgSQL stored procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/09_schema_design_and_data_modelling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Schema design and data modelling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/10_berkeley_db_and_embedded_kv_stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Berkeley DB and embedded key-value stores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/11_yugabytedb_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. YugabyteDB and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/12_migrating_a_kv_store_to_relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Migrating a key-value store to a relational database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/13_caching_and_redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Caching and Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/14_performance_tuning_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Performance tuning and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../08_Networking_Distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking & Distributed Systems
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Networking & Distributed Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/01_how_the_internet_moves_bytes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How the internet moves bytes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/02_tcp_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. TCP in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/03_sockets_api_blocking_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The sockets API and a blocking server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/04_framing_and_protocol_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Framing and protocol design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/05_thread_per_connection_and_thread_pools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Thread-per-connection and thread pools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/06_nonblocking_io_epoll_event_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Non-blocking I/O, epoll and event loops
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/07_rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. RPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/08_http_and_rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. HTTP and REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/09_client_server_architecture_and_reliability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Client-server architecture and reliability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/10_distributed_systems_fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Distributed systems fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/11_consensus_raft_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Consensus: Raft in plain words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/12_sharding_partitioning_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Sharding, partitioning and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/13_high_availability_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. High availability and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/14_system_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. System design interview walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../09_OOP_Design_Patterns_Architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OOP, Patterns & Architecture
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_12" id="__nav_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OOP, Patterns & Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/01_oop_for_a_c_programmer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. OOP for a C Programmer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/02_solid_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. SOLID in Plain Words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/03_ownership_and_object_lifetime_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Ownership and Object Lifetime Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/04_creational_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Creational Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/05_structural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Structural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/06_behavioural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Behavioural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/07_concurrency_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Concurrency Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/08_modern_cpp_alternatives_to_classic_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Modern C++ Alternatives to Classic Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/09_designing_a_server_codebase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Designing a Server Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/10_api_design_and_code_quality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. API Design and Code Quality
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/11_low_level_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Low-Level Design Interview Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/12_uml_and_communicating_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. UML and Communicating Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../10_Capstone_Projects/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capstone Projects
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_13" id="__nav_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Capstone Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_2" id="__nav_13_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    minidb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/01_build_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb build plan: eight steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_3" id="__nav_13_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tcpkv
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/01_step_project_skeleton_and_cmake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 01. Project skeleton, CMake, CI with a hello test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/02_step_raii_fd_and_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 02. RAII FileDescriptor and Socket wrappers (move-only), with unit tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/03_step_protocol_parser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 03. Protocol parser: incremental state machine, with malformed-input tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/04_step_store_with_shared_mutex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 04. Store with `std::shared_mutex`: single-thread tests, then multi-thread stress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/05_step_blocking_single_threaded_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 05. A blocking single-threaded server, tested by hand with `nc`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/06_step_thread_pool_connection_and_shutdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 06. Thread pool, move-only Connection handles, graceful shutdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/07_step_client_library_and_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 07. Client library and `tcpkv_cli`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/08_step_sanitizers_and_load_generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 08. Load generator, ASan, TSan, UBSan and Valgrind: clean under concurrent load
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/09_step_metrics_logging_and_extras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 09. Metrics, logging, `STATS`, TTL, and `KEYS` revisited
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/10_step_polish_release_and_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 10. Polish, benchmark, release v1.0.0, go public, write the resume bullets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/INTERVIEW_TALKING_POINTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv: interview talking points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-project-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Project structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-headers-vs-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Headers vs sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-one-definition-rule-odr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The One Definition Rule (ODR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-build-flags-that-find-bugs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Build flags that find bugs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-clang-format-and-clang-tidy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 clang-format and clang-tidy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-c-core-guidelines-highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 C++ Core Guidelines highlights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-code-review-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 Code review checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-reading-cppreference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Reading cppreference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-api-design-for-a-library-what-tcpkv-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 API design for a library (what tcpkv needs)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/edit/main/LEARNING_PATH/02_Modern_CPP/14_writing_production_cpp.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="14-writing-production-c">14. Writing production C++<a class="headerlink" href="#14-writing-production-c" title="Permanent link">&para;</a></h1>
+<p><strong>Time:</strong> ~2.5 hours   <strong>Prerequisites:</strong> all previous modules</p>
+<h2 id="1-in-plain-words">1. In plain words<a class="headerlink" href="#1-in-plain-words" title="Permanent link">&para;</a></h2>
+<p>Knowing the language is half the job. The other half is the set of habits that make a C++ codebase
+survive five years and twenty engineers: how files are split, how the build is configured so the
+compiler finds bugs for you, how formatting and static analysis are automated so review time goes to
+design, what a reviewer looks for, and how an API is shaped so it is hard to misuse. This module
+collects those habits and ends with the API-design rules the tcpkv project will apply.</p>
+<p>Analogy: a kitchen. The recipes are the language; the mise en place, labelled containers, sharp
+knives and a cleaning routine are what let the kitchen serve 300 covers a night without anyone
+getting hurt.</p>
+<h2 id="2-the-real-thing">2. The real thing<a class="headerlink" href="#2-the-real-thing" title="Permanent link">&para;</a></h2>
+<h3 id="21-project-structure">2.1 Project structure<a class="headerlink" href="#21-project-structure" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>tcpkv/
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  CMakeLists.txt
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  include/tcpkv/        public headers, one per public class or concept: kv_store.hpp, socket_fd.hpp
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  src/                  implementation .cpp files, private headers
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  tests/                one test file per header; a tiny main or Catch2/GoogleTest
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  bench/                micro-benchmarks (Google Benchmark)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  tools/                clang-format, clang-tidy configs, scripts
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  third_party/          vendored or FetchContent dependencies
+</span></code></pre></div>
+<p>Public headers live under a namespace-named directory so includes read <code>#include &lt;tcpkv/kv_store.hpp&gt;</code>
+and cannot collide with other libraries. Everything in a public header is API; everything else is free
+to change.</p>
+<h3 id="22-headers-vs-sources">2.2 Headers vs sources<a class="headerlink" href="#22-headers-vs-sources" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A header declares; a source defines. Exceptions: templates, <code>inline</code>/<code>constexpr</code> functions, and
+  class definitions (which are declarations of the type, with inline member function bodies allowed).</li>
+<li>Every header must be <strong>self-contained</strong>: it includes what it uses and compiles on its own
+  (<code>g++ -fsyntax-only header.hpp</code> or a per-header test). Never rely on the includer having included
+  something first.</li>
+<li>Include order in a <code>.cpp</code>: its own header first (proves self-containment), then project headers,
+  then third-party, then standard library. Alphabetical within groups; clang-format does it.</li>
+<li>Forward-declare (<code>class Connection;</code>) instead of including when you only need a pointer or
+  reference. It cuts compile time and coupling.</li>
+<li><strong>Include guards.</strong> <code>#pragma once</code> is supported by every compiler you will use and is simpler than
+  <code>#ifndef TCPKV_KV_STORE_HPP</code>. Either is fine; pick one for the project.</li>
+<li>Minimise what a header exposes: private implementation details go in the <code>.cpp</code> or behind a
+  <strong>pimpl</strong> (<code>std::unique_ptr&lt;Impl&gt; impl_;</code>) when ABI stability or compile-time isolation matters.</li>
+</ul>
+<h3 id="23-the-one-definition-rule-odr">2.3 The One Definition Rule (ODR)<a class="headerlink" href="#23-the-one-definition-rule-odr" title="Permanent link">&para;</a></h3>
+<ul>
+<li>A non-inline function or variable must be defined exactly once in the whole program.
+  Two definitions = linker error ("multiple definition").</li>
+<li>A class, inline function, template, or <code>inline</code> variable may be defined in several translation
+  units, but <strong>every definition must be token-for-token identical</strong> with the same meaning. If they
+  differ (same class name, different members, in two <code>.cpp</code> files; a header whose content depends on a
+  macro that differs between TUs), the program is ill-formed with <strong>no diagnostic required</strong>: the linker
+  picks one at random and the other TU reads garbage.</li>
+<li>Anonymous namespaces (<code>namespace { ... }</code>) or <code>static</code> give internal linkage: safe to define the same
+  name differently in different <code>.cpp</code> files.</li>
+<li>Practical ODR hygiene: no <code>#define</code> that changes a header's layout (<code>NDEBUG</code> affecting <code>struct</code>
+  members is the classic), no <code>using namespace</code> in headers, unique names for helper types in <code>.cpp</code>
+  files (anonymous namespace), same compiler flags for every TU in a binary (<code>-std</code>, <code>-D_GLIBCXX_DEBUG</code>,
+  <code>-fno-rtti</code>).</li>
+</ul>
+<h3 id="24-build-flags-that-find-bugs">2.4 Build flags that find bugs<a class="headerlink" href="#24-build-flags-that-find-bugs" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>-std=c++17 -Wall -Wextra -Werror -pedantic
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>-Wshadow -Wconversion -Wsign-conversion -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>-Wunused -Woverloaded-virtual -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Debug:   -O0 -g -fsanitize=address,undefined -fno-omit-frame-pointer   (and -D_GLIBCXX_DEBUG for container checks)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Release: -O2 -g -DNDEBUG   (symbols split out with objcopy)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Thread tests: -fsanitize=thread (separate build; incompatible with ASan)
+</span></code></pre></div>
+<p><code>-Werror</code> from day one. Warnings that are tolerated become warnings that are ignored.</p>
+<h3 id="25-clang-format-and-clang-tidy">2.5 clang-format and clang-tidy<a class="headerlink" href="#25-clang-format-and-clang-tidy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>clang-format</strong> fixes layout mechanically. Commit a <code>.clang-format</code> (start from
+  <code>BasedOnStyle: Google</code> or <code>LLVM</code>, set <code>ColumnLimit</code>, <code>IndentWidth</code>), run it in a pre-commit hook or
+  CI check. Formatting never appears in review again.</li>
+<li><strong>clang-tidy</strong> is the static analyser. A reasonable <code>.clang-tidy</code> enables
+  <code>bugprone-*, performance-*, modernize-*, readability-*, cppcoreguidelines-*</code> minus a few noisy ones.
+  Key checks: <code>bugprone-use-after-move</code>, <code>bugprone-dangling-handle</code> (string_view), <code>performance-unnecessary-copy-initialization</code>,
+  <code>performance-for-range-copy</code>, <code>modernize-use-nullptr</code>, <code>cppcoreguidelines-owning-memory</code>,
+  <code>misc-non-private-member-variables-in-classes</code>. Run on changed files in CI
+  (<code>clang-tidy -p build/ file.cpp</code> with a <code>compile_commands.json</code> from CMake).</li>
+<li><strong>cppcheck</strong> and <strong>include-what-you-use</strong> are useful extras; sanitisers (module 12) cover the
+  runtime side.</li>
+</ul>
+<h3 id="26-c-core-guidelines-highlights">2.6 C++ Core Guidelines highlights<a class="headerlink" href="#26-c-core-guidelines-highlights" title="Permanent link">&para;</a></h3>
+<p>The Core Guidelines (Stroustrup, Sutter; isocpp.github.io/CppCoreGuidelines) are long; these are the
+rules that matter most for your kind of code:</p>
+<ul>
+<li><strong>P.4</strong> Ideally, a program should be statically type safe. <strong>ES.46</strong> Avoid narrowing conversions.</li>
+<li><strong>R.1</strong> Manage resources automatically using RAII. <strong>R.3</strong> A raw pointer is non-owning.
+  <strong>R.11</strong> Avoid calling <code>new</code> and <code>delete</code> explicitly. <strong>R.20/21</strong> Prefer <code>unique_ptr</code> over
+  <code>shared_ptr</code> unless ownership is shared.</li>
+<li><strong>C.20</strong> If you can avoid defining default operations, do (rule of zero). <strong>C.21</strong> If you define any,
+  define all (rule of five). <strong>C.35</strong> A base class destructor should be public and virtual, or protected
+  and non-virtual. <strong>C.46</strong> <code>explicit</code> for single-argument constructors. <strong>C.128</strong> Virtual functions
+  specify exactly one of <code>virtual</code>, <code>override</code>, <code>final</code>.</li>
+<li><strong>F.15/F.16</strong> Pass cheap types by value, others by <code>const&amp;</code>. <strong>F.20</strong> Return outputs by value.
+  <strong>F.21</strong> Return multiple values as a struct or tuple. <strong>F.43</strong> Never return a pointer/reference to a local.</li>
+<li><strong>E.2/E.3</strong> Throw to signal that a function cannot perform its task; use exceptions for errors only.
+  <strong>E.6</strong> Use RAII to prevent leaks. <strong>E.12</strong> <code>noexcept</code> when throwing is impossible or unacceptable.</li>
+<li><strong>ES.20</strong> Always initialise an object. <strong>ES.23</strong> Prefer <code>{}</code> initialisation. <strong>ES.50</strong> Do not cast
+  away <code>const</code>. <strong>ES.100/101</strong> Do not mix signed and unsigned arithmetic.</li>
+<li><strong>CP.1</strong> Assume your code will run as part of a multithreaded program. <strong>CP.20</strong> Use RAII, never
+  plain <code>lock()</code>/<code>unlock()</code>. <strong>CP.21</strong> Use <code>std::lock</code> or <code>std::scoped_lock</code> to acquire multiple mutexes.</li>
+<li><strong>SF.7</strong> Do not write <code>using namespace</code> at global scope in a header. <strong>SF.8</strong> Use include guards.
+  <strong>SF.11</strong> Header files should be self-contained.</li>
+<li><strong>Con.1/Con.4</strong> By default, make objects immutable; use <code>const</code> to define objects whose values do not change.</li>
+</ul>
+<h3 id="27-code-review-checklist">2.7 Code review checklist<a class="headerlink" href="#27-code-review-checklist" title="Permanent link">&para;</a></h3>
+<p>Ownership and lifetime</p>
+<ul>
+<li>Every raw pointer: non-owning and the owner outlives it? Every <code>new</code>: inside a smart pointer? Every
+  <code>release()</code>: documented hand-off?</li>
+<li>References/views (<code>string_view</code>, <code>span</code>, iterators) stored in members or captured in lambdas: does
+  the source outlive them?</li>
+<li>Rule of zero or full rule of five; moves <code>noexcept</code>; moved-from state valid.</li>
+</ul>
+<p>Correctness</p>
+<ul>
+<li><code>override</code> on every override; virtual destructor on polymorphic bases.</li>
+<li>Comparators are strict weak orderings; <code>std::tie</code> for multi-field.</li>
+<li>Containers: iterator invalidation across the loop body? <code>operator[]</code> on a map in a read path?</li>
+<li>Signed/unsigned mixing, narrowing, uninitialised members, order of member initialisers.</li>
+<li>Exceptions: what guarantee does this function give? <code>noexcept</code> only where true. Destructors do not throw.</li>
+<li>Thread safety: which mutex protects this member? Is it stated in a comment next to the member?</li>
+</ul>
+<p>API</p>
+<ul>
+<li><code>explicit</code> single-arg constructors; <code>[[nodiscard]]</code> on results that must be checked; <code>const</code> wherever possible.</li>
+<li>Parameters: <code>string_view</code>/<code>const&amp;</code> to read, by value to sink, pointer only when nullable.</li>
+<li>No <code>bool</code> parameters that make call sites unreadable (<code>send(data, true, false)</code>): use an <code>enum class</code>.</li>
+</ul>
+<p>Hygiene</p>
+<ul>
+<li>Header self-contained, no <code>using namespace</code> in headers, no macros where <code>constexpr</code>/<code>inline</code> works.</li>
+<li>Names say what things are; comments say why, not what.</li>
+<li>Tests exist for the new behaviour and for the failure path.</li>
+</ul>
+<h3 id="28-reading-cppreference">2.8 Reading cppreference<a class="headerlink" href="#28-reading-cppreference" title="Permanent link">&para;</a></h3>
+<p>cppreference.com is the reference, not a tutorial. For any function: read the <strong>signature</strong> (which
+overloads, <code>const</code>, <code>noexcept</code>), the <strong>parameters</strong> and <strong>return value</strong>, then the <strong>complexity</strong>, the
+<strong>exceptions</strong> section (what guarantee), the <strong>iterator invalidation</strong> notes for containers, and the
+<strong>"since C++NN"</strong> markers so you do not use a C++20 feature in a C++17 build. The example at the bottom is
+compilable; paste it to verify behaviour. For library headers, the top-level page per header lists what
+it provides. For the language, the pages on value categories, lifetime, and undefined behaviour are
+worth reading once in full.</p>
+<h3 id="29-api-design-for-a-library-what-tcpkv-needs">2.9 API design for a library (what tcpkv needs)<a class="headerlink" href="#29-api-design-for-a-library-what-tcpkv-needs" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Make ownership visible in signatures.</strong> Factory returns <code>std::unique_ptr&lt;Connection&gt;</code> or a
+   move-only value; functions borrowing take <code>Connection&amp;</code>; nothing takes or returns an owning raw pointer.</li>
+<li><strong>Make misuse a compile error.</strong> <code>explicit</code> constructors; deleted copy on identity types;
+   <code>[[nodiscard]]</code> on error codes and handles; <code>enum class</code> for options; strong typedefs
+   (<code>struct Port { std::uint16_t value; }</code>) instead of bare integers where they could be swapped.</li>
+<li><strong>Make the common case the default.</strong> Sensible defaults in constructors; the simplest call does the
+   right thing; advanced knobs behind an options struct, not a 9-parameter function.</li>
+<li><strong>Choose the error-reporting style per layer</strong> (module 10) and state it in the header comment.
+   tcpkv: constructors throw <code>std::system_error</code>; <code>get</code>/<code>put</code>/<code>erase</code> return values; nothing on the request
+   path throws for client errors.</li>
+<li><strong>Return copies or values from shared state,</strong> never references into a container another thread may
+   mutate (the <code>KvStore::get</code> rule).</li>
+<li><strong>Keep the ABI surface small.</strong> Public headers expose the minimum; pimpl for anything that may change
+   its members; no <code>std::</code> types across a C ABI (if tcpkv ever exposes a C API, it is <code>extern "C"</code> with
+   opaque handles and plain types).</li>
+<li><strong>Thread-safety contract in the header.</strong> "All public member functions are safe to call concurrently"
+   or "externally synchronised" per class, next to the class comment.</li>
+<li><strong>Document complexity and allocation.</strong> <code>get</code> is O(1) average and allocates one <code>std::string</code> for
+   the returned copy; <code>put</code> may rehash.</li>
+<li><strong>Test the API from the outside.</strong> A test that uses only the public header catches leaks of
+   implementation details and verifies the header is self-contained.</li>
+</ol>
+<h2 id="3-code">3. Code<a class="headerlink" href="#3-code" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/02_Modern_CPP/code/kv_store.hpp"><code>code/kv_store.hpp</code></a> is a public header written to these rules, and <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/02_Modern_CPP/code/m14_library_api_demo.cpp"><code>code/m14_library_api_demo.cpp</code></a>
+plays the role of both <code>kv_store.cpp</code> (implementation) and <code>main.cpp</code> (a user) in one file so the
+example builds with one command:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1">// kv_store.hpp</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#pragma once</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;optional&gt;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string_view&gt;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_map&gt;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">namespace</span><span class="w"> </span><span class="nn">tcpkv</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">KvStore</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">public</span><span class="o">:</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="n">KvStore</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="k">explicit</span><span class="w"> </span><span class="n">KvStore</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">expected_keys</span><span class="p">);</span><span class="w">          </span><span class="c1">// explicit: 'KvStore s = 100;' must not compile</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">    </span><span class="n">KvStore</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">KvStore</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span><span class="w">                     </span><span class="c1">// identity type: copying is a bug, so it is an error</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="n">KvStore</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">KvStore</span><span class="o">&amp;</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">delete</span><span class="p">;</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">KvStore</span><span class="p">(</span><span class="n">KvStore</span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span><span class="w">                </span><span class="c1">// but moving is fine and cheap</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">KvStore</span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">KvStore</span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="o">~</span><span class="n">KvStore</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="p">[[</span><span class="na">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">get</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span><span class="w">   </span><span class="c1">// copy out, never a reference in</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w">                          </span><span class="c1">// sink parameter for the value</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="p">[[</span><span class="na">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">erase</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">);</span><span class="w">                             </span><span class="c1">// the caller must look at the answer</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="p">[[</span><span class="na">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">contains</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="p">;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="p">[[</span><span class="na">nodiscard</span><span class="p">]]</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">map_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">clear</span><span class="p">()</span><span class="w"> </span><span class="k">noexcept</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">map_</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="k">private</span><span class="o">:</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map_</span><span class="p">;</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="p">};</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">}</span><span class="w">  </span><span class="c1">// namespace tcpkv</span>
+</span></code></pre></div>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// what would be kv_store.cpp</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">KvStore</span><span class="o">::</span><span class="n">get</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">key</span><span class="p">));</span><span class="w">    </span><span class="c1">// C++17 cost: materialise a key; C++20 heterogeneous lookup removes it</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">map_</span><span class="p">.</span><span class="n">end</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">nullopt</span><span class="p">;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kt">bool</span><span class="w"> </span><span class="n">KvStore</span><span class="o">::</span><span class="n">put</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="w"> </span><span class="n">inserted</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map_</span><span class="p">.</span><span class="n">insert_or_assign</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">key</span><span class="p">),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">inserted</span><span class="p">;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">}</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1">// what would be main.cpp</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1">// store.erase("acct:1");                  // error under -Werror: [[nodiscard]] value ignored</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="kt">bool</span><span class="w"> </span><span class="n">erased</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="s">"acct:1"</span><span class="p">);</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">tcpkv</span><span class="o">::</span><span class="n">KvStore</span><span class="w"> </span><span class="n">moved</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">store</span><span class="p">);</span><span class="w">   </span><span class="c1">// allowed</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="c1">// tcpkv::KvStore copy = moved;            // error: deleted</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="k">static_assert</span><span class="p">(</span><span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">is_copy_constructible_v</span><span class="o">&lt;</span><span class="n">tcpkv</span><span class="o">::</span><span class="n">KvStore</span><span class="o">&gt;</span><span class="p">);</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_nothrow_move_constructible_v</span><span class="o">&lt;</span><span class="n">tcpkv</span><span class="o">::</span><span class="n">KvStore</span><span class="o">&gt;</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Try to misuse the API (copy it, ignore <code>erase</code>'s result, construct from a bare integer) and read the
+three compile errors. That is the API doing the reviewer's job.</p>
+<p>A minimal <code>CMakeLists.txt</code> for the layout in 2.1:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.16</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">project</span><span class="p">(</span><span class="s">tcpkv</span><span class="w"> </span><span class="s">CXX</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">17</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span><span class="w"> </span><span class="s">OFF</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_EXPORT_COMPILE_COMMANDS</span><span class="w"> </span><span class="s">ON</span><span class="p">)</span><span class="w">            </span><span class="c"># compile_commands.json for clang-tidy</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nb">add_library</span><span class="p">(</span><span class="s">tcpkv</span><span class="w"> </span><span class="s">src/kv_store.cpp</span><span class="w"> </span><span class="s">src/socket_fd.cpp</span><span class="p">)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nb">target_include_directories</span><span class="p">(</span><span class="s">tcpkv</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">include</span><span class="p">)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nb">target_compile_options</span><span class="p">(</span><span class="s">tcpkv</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">-Wall</span><span class="w"> </span><span class="s">-Wextra</span><span class="w"> </span><span class="s">-Werror</span><span class="w"> </span><span class="s">-Wshadow</span><span class="w"> </span><span class="s">-Wconversion</span><span class="w"> </span><span class="s">-Wnon-virtual-dtor</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nb">find_package</span><span class="p">(</span><span class="s">Threads</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">tcpkv</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="s">Threads::Threads</span><span class="p">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">tcpkv_server</span><span class="w"> </span><span class="s">src/main.cpp</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">tcpkv_server</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">tcpkv</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="nb">enable_testing</span><span class="p">()</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nb">add_executable</span><span class="p">(</span><span class="s">kv_store_test</span><span class="w"> </span><span class="s">tests/kv_store_test.cpp</span><span class="p">)</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">kv_store_test</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">tcpkv</span><span class="p">)</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="nb">add_test</span><span class="p">(</span><span class="s">NAME</span><span class="w"> </span><span class="s">kv_store</span><span class="w"> </span><span class="s">COMMAND</span><span class="w"> </span><span class="s">kv_store_test</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="4-under-the-hood-senior-level">4. Under the hood (senior-level)<a class="headerlink" href="#4-under-the-hood-senior-level" title="Permanent link">&para;</a></h2>
+<p><strong>What the linker does with inline and template definitions.</strong> Each TU emits inline functions,
+template instantiations, inline variables and vtables as weak symbols in COMDAT groups (sections named
+<code>.text._Z...</code>, with <code>.section ... ,"axG",@progbits,&lt;name&gt;,comdat</code>). The linker keeps the first group
+with a given name and discards the rest. It does <strong>not</strong> compare contents: if two TUs produced
+different code for the same symbol (an ODR violation), one TU's callers silently run the other's
+code. <code>-Wodr</code> with <code>-flto</code> is the only compile-time check; otherwise it shows as "impossible" behaviour.</p>
+<p><strong>Why a header-only change rebuilds everything.</strong> Each <code>.cpp</code> is preprocessed into one giant TU
+containing every included header, and <code>make</code>/<code>ninja</code> rebuild a TU when any of its dependencies'
+timestamps change (dependencies are tracked with <code>-MMD</code>). Touching a header included by 300 files
+costs 300 compilations. Forward declarations, pimpl, and smaller headers are compile-time
+engineering. Precompiled headers and C++20 modules attack the same problem.</p>
+<p><strong><code>#pragma once</code> vs guards.</strong> Guards are pure preprocessor; the compiler still opens and tokenises the
+file to find the <code>#endif</code> on later includes (GCC optimises this away when it recognises the guard
+pattern). <code>#pragma once</code> lets the compiler skip the file by identity (inode/path), which is why it is
+not in the standard: file identity is not portable in theory. In practice both are fine.</p>
+<p><strong>Symbol visibility.</strong> By default every non-static symbol in a shared library is exported, making the
+<code>.so</code> large and every type part of the ABI. <code>-fvisibility=hidden</code> plus <code>__attribute__((visibility("default")))</code>
+(or a <code>TCPKV_API</code> macro) on the public API shrinks the export table, speeds up loading, and lets the
+compiler optimise internal calls as if they were static. It is the Linux equivalent of
+<code>__declspec(dllexport)</code> on Windows.</p>
+<p><strong><code>-Werror</code> and compiler upgrades.</strong> New GCC versions add warnings to <code>-Wall</code>; a <code>-Werror</code> build can
+break on a compiler upgrade without any code change. Pin the compiler version in CI and bump it
+deliberately, fixing the new warnings in the same change.</p>
+<p><strong>clang-tidy's model.</strong> It runs the Clang front end on each TU using the exact flags from
+<code>compile_commands.json</code>, builds the AST, and matches checks against it. It therefore sees templates
+only as instantiated in that TU and sees macros expanded. It is slow (seconds per file); run it on the
+diff in CI and on the whole tree nightly.</p>
+<p><strong>Sanitiser interaction with the ODR.</strong> ASan has an ODR-violation detector for global variables with
+the same name in different TUs (<code>detect_odr_violation=2</code>); it fires at start-up and is one of the few
+runtime checks for the problem.</p>
+<p><strong>Debug symbols and <code>-g</code>.</strong> DWARF debug info can be several times the size of the code. <code>-g</code> does not
+change the generated machine code at any <code>-O</code> level; build release with <code>-O2 -g</code>, then
+<code>objcopy --only-keep-debug server server.debug; strip --strip-debug server; objcopy --add-gnu-debuglink=server.debug server</code>.
+gdb finds the <code>.debug</code> file by the link (and by build-id in <code>/usr/lib/debug</code>). You get symbolised
+core dumps from production without shipping symbols.</p>
+<h2 id="5-in-production">5. In production<a class="headerlink" href="#5-in-production" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Day one checklist for tcpkv (or any new C++ project):</strong> <code>-std=c++17 -Wall -Wextra -Werror</code>,
+  a <code>.clang-format</code>, a <code>.clang-tidy</code>, a sanitiser CI job, a test target, <code>compile_commands.json</code>,
+  and a <code>README</code> section titled "Error handling policy" and "Thread-safety conventions". It takes an
+  hour and saves weeks.</li>
+<li><strong>The header is the contract.</strong> When reviewing, read the header first and ask: can I misuse this? If
+  a reviewer needs to read the <code>.cpp</code> to know who owns a pointer or whether a function throws, the
+  header is incomplete.</li>
+<li><strong>Review for lifetime first.</strong> Most severe C++ bugs are lifetime bugs (dangling reference, use after
+  move, iterator invalidation, view outliving its string). Logic bugs are caught by tests; lifetime bugs
+  often are not, so reviewers should spend their attention there.</li>
+<li><strong>Fix warnings at the source, never with casts.</strong> A <code>-Wsign-conversion</code> warning on
+  <code>v[i]</code> with <code>int i</code> is fixed by making <code>i</code> a <code>std::size_t</code>, not by <code>static_cast&lt;size_t&gt;(i)</code> at the use site.</li>
+<li><strong>Treat clang-tidy findings as bugs until proven otherwise.</strong> <code>NOLINT</code> with a reason is acceptable;
+  bare <code>NOLINT</code> is a review finding.</li>
+<li><strong>Keep the build reproducible.</strong> Same compiler, same flags, same standard library for every TU;
+  pinned third-party versions; no "works on my machine" <code>-D</code> flags. ODR violations and ABI mismatches
+  come from inconsistency, not from the language.</li>
+<li><strong>3 AM debugging.</strong> "Impossible" crash in code that has not changed: check whether all objects were
+  built with the same flags after a header changed (stale object files, two definitions of a struct with
+  different <code>#ifdef</code>s). <code>nm -C</code> the objects and compare the symbol list; <code>-Wodr -flto</code> on a clean build
+  usually names the culprit.</li>
+</ul>
+<h2 id="6-try-it">6. Try it<a class="headerlink" href="#6-try-it" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>(easy)</strong> Split <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/02_Modern_CPP/code/m14_library_api_demo.cpp"><code>m14_library_api_demo.cpp</code></a> into <code>kv_store.cpp</code> and <code>main.cpp</code>, build with the
+   <code>CMakeLists.txt</code> above, and run <code>clang-tidy -p build src/kv_store.cpp</code>. Done when the build is
+   warning-free and you have read every tidy finding.</li>
+<li><strong>(easy)</strong> Create an ODR violation on purpose: define <code>struct Config { int a; };</code> in one <code>.cpp</code>
+   and <code>struct Config { int a; int b; };</code> in another, each with a function that constructs and prints
+   it, both non-inline. Link and run. Done when you can explain the (lack of) diagnostic and have seen
+   <code>-flto -Wodr</code> catch it.</li>
+<li><strong>(medium)</strong> Add a <code>SocketFd</code> (module 03) header to the tcpkv layout, write a test that uses only the
+   public header, and add <code>-fvisibility=hidden</code> with a <code>TCPKV_API</code> macro. Done when <code>nm -D libtcpkv.so</code>
+   lists only the intended symbols.</li>
+<li><strong>(medium)</strong> Take any 200-line C++ file you have written during this course, run clang-tidy with
+   <code>bugprone-*,performance-*,modernize-*,readability-*</code>, and fix every finding without <code>NOLINT</code>. Done
+   when it is clean and you can name the three most common findings.</li>
+<li><strong>(hard)</strong> Write the public header for tcpkv's <code>Connection</code> class (move-only, owns a <code>SocketFd</code>,
+   <code>read_message()</code> returning <code>std::optional&lt;Message&gt;</code> or an <code>error_code</code>, <code>write(std::string_view)</code>
+   returning <code>error_code</code>), with the thread-safety contract and error policy in comments. Have someone
+   (or a later you) try to misuse it from a test. Done when every misuse you can think of is a compile
+   error or a documented behaviour.</li>
+<li><strong>(hard)</strong> Set up a GitHub Actions (or local script) pipeline: clang-format check, build with
+   <code>-Werror</code>, tests under ASan+UBSan, tests under TSan, clang-tidy on the diff. Done when a deliberate
+   use-after-move and a deliberate data race each fail the pipeline with a readable report.</li>
+</ol>
+<h2 id="7-interview-questions">7. Interview questions<a class="headerlink" href="#7-interview-questions" title="Permanent link">&para;</a></h2>
+<p><strong>Q: What is the One Definition Rule?</strong>
+Every non-inline function and variable must be defined exactly once in the program (the linker
+enforces this). Classes, templates, inline functions and inline variables may be defined in many
+translation units but every definition must be identical; if not, the program is ill-formed with no
+diagnostic required, and the linker silently picks one definition.</p>
+<p><strong>Q: What makes a header self-contained and why does it matter?</strong>
+It includes everything it uses and compiles on its own. Otherwise it works only when included after
+some other header, which breaks when include order changes and hides the real dependency graph. The
+"own header first" include order in <code>.cpp</code> files tests it on every build.</p>
+<p><strong>Q: <code>#pragma once</code> or include guards?</strong>
+Both prevent double inclusion. <code>#pragma once</code> is non-standard but universally supported and uses file
+identity; guards are standard but need a unique macro per file. Pick one per project; the choice is
+not worth a debate.</p>
+<p><strong>Q: How do you keep a shared library's ABI stable?</strong>
+Hide implementation behind a pimpl or opaque handle, do not expose standard-library types or
+templates across the boundary, only append virtual functions (or avoid virtual in the ABI), use
+<code>-fvisibility=hidden</code> with an explicit export macro, and never change the layout of exported structs
+without a version bump.</p>
+<p><strong>Q: What do you look for first in a C++ code review?</strong>
+Lifetime and ownership: who owns each pointer, do references/views outlive their source, use after
+move, iterator invalidation, thread-safety of shared members. Then the API shape (can it be misused?),
+then exception guarantees, then style, which should already be automated.</p>
+<p><strong>Q: What is the role of clang-tidy versus the compiler's warnings?</strong>
+Compiler warnings catch local, syntactic issues quickly. clang-tidy does deeper, slower semantic
+analysis on the AST: use after move, dangling <code>string_view</code>, unnecessary copies, modernisation,
+Core Guidelines rules. Run warnings on every build and tidy on the diff in CI.</p>
+<p><strong>Q: How do you ship optimised binaries but still debug core dumps?</strong>
+Build with <code>-O2 -g</code>, split the DWARF info into a separate file with <code>objcopy --only-keep-debug</code>,
+strip the binary, add a <code>.gnu_debuglink</code>, and keep the debug file by build-id. gdb loads it when
+analysing the core.</p>
+<p><strong>Q: Name five Core Guidelines rules you apply every day.</strong>
+Manage resources with RAII (R.1); a raw pointer is non-owning (R.3); rule of zero or rule of five
+(C.20/C.21); <code>explicit</code> single-argument constructors (C.46); virtual functions specify exactly one of
+<code>virtual</code>/<code>override</code>/<code>final</code> (C.128); return outputs by value (F.20); never return a reference to a
+local (F.43); use RAII for locks (CP.20).</p>
+<h2 id="8-recap">8. Recap<a class="headerlink" href="#8-recap" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Layout: <code>include/&lt;project&gt;/</code> public headers, <code>src/</code>, <code>tests/</code>, <code>bench/</code>; headers declare, sources define.</li>
+<li>Headers self-contained, own header first, forward-declare where possible, <code>#pragma once</code> or guards.</li>
+<li>ODR: one definition for non-inline entities; identical definitions for inline/templates/classes; violations
+  are undiagnosed. Same flags for every TU.</li>
+<li><code>-std=c++17 -Wall -Wextra -Werror</code> plus <code>-Wshadow -Wconversion -Wnon-virtual-dtor</code>; sanitisers in CI;
+  <code>-O2 -g</code> with split debug info in release.</li>
+<li>clang-format removes style from review; clang-tidy finds use-after-move, dangling views, copies.</li>
+<li>Review lifetime first, then API misuse, then guarantees; style is automated.</li>
+<li>Core Guidelines: RAII, non-owning raw pointers, rule of zero/five, <code>explicit</code>, <code>override</code>, return by value.</li>
+<li>cppreference: read signature, complexity, exceptions, invalidation, "since C++NN".</li>
+<li>API design: ownership in signatures, misuse as compile error, defaults for the common case, stated
+  error policy and thread-safety contract, copies out of shared state, small ABI surface.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../13_cpp17_features_tour/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 13. C++17 features tour">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                13. C++17 features tour
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../EXERCISES/" class="md-footer__link md-footer__link--next" aria-label="Next: Exercises">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Exercises
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/khanshaki-r" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../assets/progress.js"></script>
+      
+    
+  </body>
+</html>

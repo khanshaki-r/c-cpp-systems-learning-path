@@ -1,0 +1,7305 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 12-week, production-depth curriculum in C, modern C++, concurrency, debugging, Linux, databases and distributed systems.">
+      
+      
+        <meta name="author" content="MD Shakir Khan">
+      
+      
+        <link rel="canonical" href="https://khanshaki-r.github.io/c-cpp-systems-learning-path/04_Concurrency/13_win32_concurrency_reference/">
+      
+      
+        <link rel="prev" href="../12_debugging_concurrency_bugs/">
+      
+      
+        <link rel="next" href="../EXERCISES/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>13. Win32 concurrency reference - C, C++ Systems Engineering Learning Path</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#13-win32-concurrency-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-header__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C, C++ Systems Engineering Learning Path
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              13. Win32 concurrency reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-nav__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    C, C++ Systems Engineering Learning Path
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_Environment_Setup/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Environment Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/01_vscode_wsl_dev_loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. VS Code + WSL development loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/02_verify_toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Verify the toolchain: build, test, debug, sanitize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../12_C_Programming/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Programming
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/01_how_c_really_works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How C really works: from source files to a running program
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/02_types_integers_and_conversions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Types, integers and conversions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/03_pointers_from_the_ground_up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Pointers from the ground up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/04_memory_storage_scope_and_lifetime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Memory: storage duration, scope and lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/05_strings_and_buffers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Strings and buffers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/06_structs_unions_enums_and_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Structs, unions, enums and memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/07_functions_function_pointers_and_callbacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Functions, function pointers and callbacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/08_the_preprocessor_and_macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. The preprocessor and macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/09_undefined_behaviour_and_the_optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Undefined behaviour and the optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/10_error_handling_and_resource_cleanup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling and resource cleanup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/11_data_structures_in_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Data structures in C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/12_memory_allocators_arena_pool_and_malloc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory allocators: arena, pool and a teaching malloc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/13_files_io_and_posix_system_calls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Files, I/O and POSIX system calls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/14_multithreading_in_c_pthreads_and_c11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Multithreading in C: pthreads and C11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/15_reading_debugging_and_changing_legacy_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Reading, debugging and changing legacy C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/16_modern_c_and_the_c_interview_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Modern C and the C interview playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../02_Modern_CPP/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern C++17
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modern C++17
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/01_from_c_to_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. From C to C++: what actually changes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/02_classes_constructors_destructors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Classes, constructors and destructors: object lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/03_raii_the_core_idea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. RAII: the core idea of C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/04_value_semantics_copy_move/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Value semantics: copy, move, and the rule of five
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/05_smart_pointers_and_ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Smart pointers and ownership design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/06_stl_containers_deep_dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. STL containers deep dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/07_stl_algorithms_lambdas_iterators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. STL algorithms, lambdas and iterators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/08_templates_and_generic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Templates and generic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/09_oop_inheritance_virtual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. OOP: inheritance, virtual functions and what a vtable really is
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/10_error_handling_exceptions_optional_expected/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling: exceptions, optional, variant, error_code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/11_const_constexpr_and_compile_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. const, constexpr and compile-time programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/12_memory_model_layout_and_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory layout, allocation and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/13_cpp17_features_tour/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. C++17 features tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/14_writing_production_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Writing production C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_Data_Structures_Algorithms/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Structures & Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Structures & Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/01_complexity_and_how_to_think/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Complexity and how to think
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/02_arrays_vectors_two_pointers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Arrays, vectors and two pointers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/03_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Strings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/04_hashing_hash_tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Hashing and hash tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/05_linked_lists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Linked lists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/06_stacks_queues_deques/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Stacks, queues and deques
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/07_recursion_and_backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Recursion and backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/08_sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Sorting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/09_binary_search_and_ordered_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Binary search and ordered data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/10_trees_bst/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Trees and binary search trees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/11_balanced_trees_btree_and_disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Balanced trees, B-trees and disk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/12_heaps_priority_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Heaps and priority queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/13_graphs_bfs_dfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Graphs: BFS, DFS and friends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/14_dynamic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Dynamic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/15_tries_and_bit_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Tries and bit manipulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/16_interview_coding_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Interview coding playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concurrency
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concurrency
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_processes_threads_and_the_os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Processes, threads and the OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_data_races_and_why_they_are_ub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Data races and why they are undefined behaviour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_mutexes_lock_guard_unique_lock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mutexes: lock_guard, unique_lock, scoped_lock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_shared_mutex_and_readers_writers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. shared_mutex and readers-writers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_condition_variables_and_wait_objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Condition variables and wait objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_deadlocks_livelocks_starvation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Deadlocks, livelocks and starvation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_atomics_and_the_memory_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Atomics and the memory model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_lock_free_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Lock-free basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_thread_pools_and_task_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Thread pools and task queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_cache_lines_false_sharing_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Cache lines, false sharing and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_concurrency_patterns_for_servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Concurrency patterns for servers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../12_debugging_concurrency_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Debugging concurrency bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Win32 concurrency reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Win32 concurrency reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-side-by-side-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The side-by-side table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Threads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-critical_section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 CRITICAL_SECTION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-srwlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 SRWLOCK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-condition_variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 CONDITION_VARIABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-events-and-semaphores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Events and Semaphores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-waitformultipleobjects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 WaitForMultipleObjects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-interlocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Interlocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-thread-pool-api-vista" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Thread pool API (Vista+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-io-completion-ports-in-one-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 I/O completion ports in one paragraph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Under the hood (senior-level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kernel-objects-vs-user-mode-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel objects vs user-mode primitives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyed-events-and-waitonaddress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyed events and WaitOnAddress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatcher-objects-and-the-wait-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatcher objects and the wait block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-boosts-and-your-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority boosts and your server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-srwlock-does-not-record-its-owner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why SRWLOCK does not record its owner
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_Memory_Debugging_RCA/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory, Debugging & RCA
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Memory, Debugging & RCA
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/01_process_memory_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Process memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/02_stack_frames_and_calling_conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Stack frames and calling conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/03_the_heap_malloc_internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The heap: malloc internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/04_the_catalogue_of_memory_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. The catalogue of memory bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/05_gdb_from_zero_to_fluent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. gdb from zero to fluent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/06_core_dumps_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Core dumps on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/07_windbg_and_windows_crash_dumps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. WinDbg and Windows crash dumps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/08_valgrind_and_sanitizers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Valgrind and the sanitizers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/09_leaks_and_memory_growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Leaks and memory growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/10_concurrency_crashes_and_heisenbugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Concurrency crashes and Heisenbugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/11_production_incident_triage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Production incident triage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/12_writing_a_formal_rca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Writing a formal RCA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/13_defensive_design_to_prevent_the_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Defensive design to prevent the bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_Linux_Toolchain_DevOps/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux, Toolchain & DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux, Toolchain & DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/01_linux_for_a_windows_developer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Linux for a Windows developer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/02_how_a_cpp_program_is_built/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. How a C++ program is built
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/03_gcc_and_clang_flags_that_matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. GCC and Clang flags that matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/04_make_and_cmake_from_scratch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Make and CMake from scratch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/05_testing_with_googletest_and_ctest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Testing with GoogleTest and ctest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/06_git_properly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Git properly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/07_debugging_and_profiling_tools_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Debugging and profiling tools on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/08_docker_for_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Docker for C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/09_ci_cd_github_actions_and_azure_devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. CI/CD with GitHub Actions and Azure DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/10_scripting_bash_and_a_little_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Scripting: bash for build, test and deploy, and a little Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/11_linux_systems_programming_essentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Linux systems programming essentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/12_windows_toolchain_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_Linux_Toolchain_DevOps/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../07_Databases_Internals/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Internals
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database Internals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/01_what_a_database_actually_does/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. What a database actually does
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/02_storage_engines_pages_and_heap_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Storage engines: pages and heap files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/03_btree_indexes_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. B-tree indexes in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/04_wal_and_crash_recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Write-ahead logging and crash recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/05_transactions_acid_mvcc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Transactions, ACID and MVCC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/06_query_planning_and_explain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Query planning and reading EXPLAIN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/07_sql_for_backend_engineers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. SQL for backend engineers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/08_plpgsql_stored_procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. PL/pgSQL stored procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/09_schema_design_and_data_modelling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Schema design and data modelling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/10_berkeley_db_and_embedded_kv_stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Berkeley DB and embedded key-value stores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/11_yugabytedb_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. YugabyteDB and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/12_migrating_a_kv_store_to_relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Migrating a key-value store to a relational database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/13_caching_and_redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Caching and Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/14_performance_tuning_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Performance tuning and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../08_Networking_Distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking & Distributed Systems
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Networking & Distributed Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/01_how_the_internet_moves_bytes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How the internet moves bytes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/02_tcp_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. TCP in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/03_sockets_api_blocking_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The sockets API and a blocking server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/04_framing_and_protocol_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Framing and protocol design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/05_thread_per_connection_and_thread_pools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Thread-per-connection and thread pools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/06_nonblocking_io_epoll_event_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Non-blocking I/O, epoll and event loops
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/07_rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. RPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/08_http_and_rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. HTTP and REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/09_client_server_architecture_and_reliability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Client-server architecture and reliability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/10_distributed_systems_fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Distributed systems fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/11_consensus_raft_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Consensus: Raft in plain words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/12_sharding_partitioning_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Sharding, partitioning and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/13_high_availability_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. High availability and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/14_system_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. System design interview walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../09_OOP_Design_Patterns_Architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OOP, Patterns & Architecture
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_12" id="__nav_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OOP, Patterns & Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/01_oop_for_a_c_programmer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. OOP for a C Programmer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/02_solid_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. SOLID in Plain Words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/03_ownership_and_object_lifetime_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Ownership and Object Lifetime Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/04_creational_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Creational Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/05_structural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Structural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/06_behavioural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Behavioural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/07_concurrency_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Concurrency Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/08_modern_cpp_alternatives_to_classic_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Modern C++ Alternatives to Classic Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/09_designing_a_server_codebase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Designing a Server Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/10_api_design_and_code_quality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. API Design and Code Quality
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/11_low_level_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Low-Level Design Interview Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/12_uml_and_communicating_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. UML and Communicating Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../10_Capstone_Projects/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capstone Projects
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_13" id="__nav_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Capstone Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_2" id="__nav_13_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    minidb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/01_build_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb build plan: eight steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_3" id="__nav_13_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tcpkv
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/01_step_project_skeleton_and_cmake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 01. Project skeleton, CMake, CI with a hello test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/02_step_raii_fd_and_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 02. RAII FileDescriptor and Socket wrappers (move-only), with unit tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/03_step_protocol_parser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 03. Protocol parser: incremental state machine, with malformed-input tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/04_step_store_with_shared_mutex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 04. Store with `std::shared_mutex`: single-thread tests, then multi-thread stress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/05_step_blocking_single_threaded_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 05. A blocking single-threaded server, tested by hand with `nc`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/06_step_thread_pool_connection_and_shutdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 06. Thread pool, move-only Connection handles, graceful shutdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/07_step_client_library_and_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 07. Client library and `tcpkv_cli`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/08_step_sanitizers_and_load_generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 08. Load generator, ASan, TSan, UBSan and Valgrind: clean under concurrent load
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/09_step_metrics_logging_and_extras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 09. Metrics, logging, `STATS`, TTL, and `KEYS` revisited
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/10_step_polish_release_and_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 10. Polish, benchmark, release v1.0.0, go public, write the resume bullets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/INTERVIEW_TALKING_POINTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv: interview talking points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-side-by-side-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The side-by-side table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-threads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Threads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-critical_section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 CRITICAL_SECTION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-srwlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 SRWLOCK
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-condition_variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 CONDITION_VARIABLE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-events-and-semaphores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Events and Semaphores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-waitformultipleobjects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 WaitForMultipleObjects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-interlocked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 Interlocked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-thread-pool-api-vista" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 Thread pool API (Vista+)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-io-completion-ports-in-one-paragraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 I/O completion ports in one paragraph
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Under the hood (senior-level)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kernel-objects-vs-user-mode-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel objects vs user-mode primitives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyed-events-and-waitonaddress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyed events and WaitOnAddress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatcher-objects-and-the-wait-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dispatcher objects and the wait block
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-boosts-and-your-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority boosts and your server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-srwlock-does-not-record-its-owner" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why SRWLOCK does not record its owner
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/edit/main/LEARNING_PATH/04_Concurrency/13_win32_concurrency_reference.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="13-win32-concurrency-reference">13. Win32 concurrency reference<a class="headerlink" href="#13-win32-concurrency-reference" title="Permanent link">&para;</a></h1>
+<p><strong>Time:</strong> ~2 hours   <strong>Prerequisites:</strong> 03, 05, 07, 09 (this module is a reference; read it once, return to it)</p>
+<h2 id="1-in-plain-words">1. In plain words<a class="headerlink" href="#1-in-plain-words" title="Permanent link">&para;</a></h2>
+<p>This is the module that lets you describe your existing work in portable terms. Every primitive
+your server uses has a standard C++17 equivalent, or a documented reason why it does not. When an
+interviewer who has never touched Windows asks "what synchronisation did you use?", you answer
+"a user-mode mutex with a spin phase for the connection table, a reader-writer lock for the master
+tables, condition variables for the request queue, and a counting semaphore to bound in-flight
+requests" rather than "CRITICAL_SECTION, SRWLOCK, Events and a Semaphore". Same facts, understood
+by everyone.</p>
+<p>Analogy: you speak one dialect fluently. This module is the phrasebook that maps each word to the
+standard language, with notes on the words that have no exact translation.</p>
+<p>The Win32 <code>.c</code> examples in <code>code/</code> are Windows-only. Build them with MSVC (<code>cl /W4 /O2 file.c</code>) or
+MinGW GCC. They are not part of the WSL build.</p>
+<h2 id="2-the-real-thing">2. The real thing<a class="headerlink" href="#2-the-real-thing" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-side-by-side-table">2.1 The side-by-side table<a class="headerlink" href="#21-the-side-by-side-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Win32</th>
+<th>C++17 standard</th>
+<th>POSIX</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>create thread</td>
+<td><code>CreateThread</code>, <code>_beginthreadex</code></td>
+<td><code>std::thread</code></td>
+<td><code>pthread_create</code></td>
+<td>use <code>_beginthreadex</code> from C code so the CRT's per-thread state is initialised</td>
+</tr>
+<tr>
+<td>wait for thread</td>
+<td><code>WaitForSingleObject(h, INFINITE)</code> + <code>CloseHandle(h)</code></td>
+<td><code>thread::join()</code></td>
+<td><code>pthread_join</code></td>
+<td>Windows thread objects live until the last handle closes</td>
+</tr>
+<tr>
+<td>detach</td>
+<td><code>CloseHandle(h)</code></td>
+<td><code>thread::detach()</code></td>
+<td><code>pthread_detach</code></td>
+<td></td>
+</tr>
+<tr>
+<td>thread id</td>
+<td><code>GetCurrentThreadId()</code></td>
+<td><code>std::this_thread::get_id()</code></td>
+<td><code>pthread_self()</code> / <code>gettid()</code></td>
+<td></td>
+</tr>
+<tr>
+<td>thread name</td>
+<td><code>SetThreadDescription</code> (Win10+)</td>
+<td>none</td>
+<td><code>pthread_setname_np</code></td>
+<td>shows in debuggers; do it</td>
+</tr>
+<tr>
+<td>stack size</td>
+<td><code>CreateThread</code> param</td>
+<td>none (gap)</td>
+<td><code>pthread_attr_setstacksize</code></td>
+<td></td>
+</tr>
+<tr>
+<td>TLS</td>
+<td><code>__declspec(thread)</code>, <code>TlsAlloc/TlsGetValue</code></td>
+<td><code>thread_local</code></td>
+<td><code>__thread</code>, <code>pthread_key_create</code></td>
+<td></td>
+</tr>
+<tr>
+<td>sleep</td>
+<td><code>Sleep(ms)</code></td>
+<td><code>std::this_thread::sleep_for</code></td>
+<td><code>nanosleep</code></td>
+<td><code>Sleep(0)</code> yields; <code>Sleep(1)</code> is ~1 ms or the timer resolution</td>
+</tr>
+<tr>
+<td>yield</td>
+<td><code>SwitchToThread()</code></td>
+<td><code>std::this_thread::yield()</code></td>
+<td><code>sched_yield</code></td>
+<td></td>
+</tr>
+<tr>
+<td>intra-process mutex</td>
+<td><code>CRITICAL_SECTION</code></td>
+<td><code>std::mutex</code> / <code>std::recursive_mutex</code></td>
+<td><code>pthread_mutex_t</code></td>
+<td>CS is recursive and can spin; <code>std::mutex</code> is neither</td>
+</tr>
+<tr>
+<td>mutex try</td>
+<td><code>TryEnterCriticalSection</code></td>
+<td><code>try_lock()</code></td>
+<td><code>pthread_mutex_trylock</code></td>
+<td></td>
+</tr>
+<tr>
+<td>cross-process mutex</td>
+<td><code>CreateMutex</code> (kernel object)</td>
+<td>none</td>
+<td>named <code>sem_open</code> or <code>pthread_mutex</code> in shared memory with <code>PTHREAD_PROCESS_SHARED</code></td>
+<td>kernel object: syscall per acquire, abandonment detection, waitable with WFMO</td>
+</tr>
+<tr>
+<td>timed mutex</td>
+<td><code>WaitForSingleObject(hMutex, ms)</code></td>
+<td><code>std::timed_mutex::try_lock_for</code></td>
+<td><code>pthread_mutex_timedlock</code></td>
+<td></td>
+</tr>
+<tr>
+<td>reader-writer lock</td>
+<td><code>SRWLOCK</code></td>
+<td><code>std::shared_mutex</code></td>
+<td><code>pthread_rwlock_t</code></td>
+<td>SRWLOCK: pointer-sized, static init, no recursion, no upgrade, does not record owner</td>
+</tr>
+<tr>
+<td>condition variable</td>
+<td><code>CONDITION_VARIABLE</code> + <code>SleepConditionVariableCS/SRW</code></td>
+<td><code>std::condition_variable</code></td>
+<td><code>pthread_cond_t</code></td>
+<td>same spurious-wakeup and predicate-loop rules</td>
+</tr>
+<tr>
+<td>notify one / all</td>
+<td><code>WakeConditionVariable</code> / <code>WakeAllConditionVariable</code></td>
+<td><code>notify_one</code> / <code>notify_all</code></td>
+<td><code>pthread_cond_signal</code> / <code>broadcast</code></td>
+<td></td>
+</tr>
+<tr>
+<td>manual-reset event</td>
+<td><code>CreateEvent(.., TRUE, ..)</code></td>
+<td>none; <code>mutex + bool + condition_variable</code>, or <code>std::promise&lt;void&gt;</code> / <code>shared_future&lt;void&gt;</code> for one-shot</td>
+<td>none</td>
+<td>stateful: a set with no waiter is remembered</td>
+</tr>
+<tr>
+<td>auto-reset event</td>
+<td><code>CreateEvent(.., FALSE, ..)</code></td>
+<td>none; binary semaphore from <code>mutex + int + condition_variable</code></td>
+<td>none</td>
+<td>coalesces back-to-back sets: two <code>SetEvent</code>s may wake one waiter</td>
+</tr>
+<tr>
+<td>counting semaphore</td>
+<td><code>CreateSemaphore</code> / <code>ReleaseSemaphore</code></td>
+<td><code>std::counting_semaphore</code> (C++20); build from mutex + cv in C++17</td>
+<td><code>sem_t</code></td>
+<td></td>
+</tr>
+<tr>
+<td>wait for any / all of N</td>
+<td><code>WaitForMultipleObjects(n, h, bWaitAll, ms)</code></td>
+<td>none</td>
+<td>none (<code>select</code>/<code>poll</code>/<code>epoll</code> for fds only)</td>
+<td>single queue or composite predicate instead</td>
+</tr>
+<tr>
+<td>alertable wait / APC</td>
+<td><code>WaitForSingleObjectEx(.., TRUE)</code>, <code>QueueUserAPC</code></td>
+<td>none</td>
+<td>signals (loosely)</td>
+<td></td>
+</tr>
+<tr>
+<td>one-time init</td>
+<td><code>InitOnceExecuteOnce</code> + <code>INIT_ONCE</code></td>
+<td><code>std::call_once</code>, function-local static</td>
+<td><code>pthread_once</code></td>
+<td></td>
+</tr>
+<tr>
+<td>atomic add</td>
+<td><code>InterlockedIncrement</code>, <code>InterlockedExchangeAdd</code></td>
+<td><code>atomic::fetch_add</code> (seq_cst)</td>
+<td><code>__atomic_fetch_add</code></td>
+<td>un-suffixed Interlocked = full barrier</td>
+</tr>
+<tr>
+<td>atomic exchange</td>
+<td><code>InterlockedExchange</code></td>
+<td><code>atomic::exchange</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>CAS</td>
+<td><code>InterlockedCompareExchange(&amp;v, desired, expected)</code> returns old</td>
+<td><code>compare_exchange_strong(expected&amp;, desired)</code> returns bool, updates <code>expected</code></td>
+<td></td>
+<td>note argument order and return convention differ</td>
+</tr>
+<tr>
+<td>128-bit CAS</td>
+<td><code>InterlockedCompareExchange128</code></td>
+<td><code>atomic&lt;16-byte struct&gt;</code> with <code>-mcx16</code></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>acquire/release variants</td>
+<td><code>InterlockedIncrementAcquire/Release</code>, <code>*NoFence</code></td>
+<td><code>memory_order_acquire/release/relaxed</code></td>
+<td></td>
+<td>matter on ARM64 Windows</td>
+</tr>
+<tr>
+<td>full fence</td>
+<td><code>MemoryBarrier()</code></td>
+<td><code>atomic_thread_fence(seq_cst)</code></td>
+<td><code>__sync_synchronize</code></td>
+<td></td>
+</tr>
+<tr>
+<td>compiler-only fence</td>
+<td><code>_ReadWriteBarrier()</code> (deprecated)</td>
+<td><code>atomic_signal_fence</code></td>
+<td><code>asm volatile("":::"memory")</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>volatile</code> semantics</td>
+<td>acquire/release under <code>/volatile:ms</code> (x86 default)</td>
+<td>none; plain volatile is not atomic</td>
+<td>none</td>
+<td>portable code must not rely on it</td>
+</tr>
+<tr>
+<td>futex</td>
+<td><code>WaitOnAddress</code> / <code>WakeByAddressSingle/All</code> (Win8+)</td>
+<td>none directly; underlies <code>std::mutex</code> on Linux</td>
+<td><code>futex(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td>thread pool</td>
+<td><code>CreateThreadpool</code>, <code>CreateThreadpoolWork</code>, <code>SubmitThreadpoolWork</code>, <code>TrySubmitThreadpoolCallback</code></td>
+<td>none (module 09 builds one)</td>
+<td>none</td>
+<td>Vista+ pool is a good default on Windows</td>
+</tr>
+<tr>
+<td>timers</td>
+<td><code>CreateThreadpoolTimer</code>, <code>CreateWaitableTimer</code></td>
+<td>none; a timer thread + cv</td>
+<td><code>timer_create</code>, <code>timerfd</code></td>
+<td></td>
+</tr>
+<tr>
+<td>async I/O completion</td>
+<td>I/O completion port: <code>CreateIoCompletionPort</code>, <code>GetQueuedCompletionStatus</code></td>
+<td>none</td>
+<td><code>epoll</code> (readiness), <code>io_uring</code> (completion)</td>
+<td>IOCP is the Windows event loop; module 11 / 08_Networking</td>
+</tr>
+<tr>
+<td>process-wide exit</td>
+<td><code>ExitProcess</code></td>
+<td><code>std::exit</code>, <code>std::quick_exit</code></td>
+<td><code>exit</code>, <code>_exit</code></td>
+<td></td>
+</tr>
+<tr>
+<td>kill a thread</td>
+<td><code>TerminateThread</code></td>
+<td>none (good)</td>
+<td><code>pthread_cancel</code></td>
+<td>never in production; leaves locks held</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-threads">2.2 Threads<a class="headerlink" href="#22-threads" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;windows.h&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;process.h&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kr">__stdcall</span><span class="w"> </span><span class="n">worker</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="cm">/* ... */</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HANDLE</span><span class="p">)</span><span class="n">_beginthreadex</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">WaitForSingleObject</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">INFINITE</span><span class="p">);</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">CloseHandle</span><span class="p">(</span><span class="n">h</span><span class="p">);</span>
+</span></code></pre></div>
+<p><code>_beginthreadex</code> versus <code>CreateThread</code>: the CRT (<code>errno</code>, <code>strtok</code> state, locale, C++ exception
+state) is per-thread and <code>_beginthreadex</code> initialises it; <code>CreateThread</code> from C code that uses the
+CRT historically leaked that state. MSVC's <code>std::thread</code> uses <code>_beginthreadex</code>.</p>
+<p><code>GetExitCodeThread</code> retrieves the return value after the thread ends. In C++ terms that is the
+future (module 09).</p>
+<h3 id="23-critical_section">2.3 CRITICAL_SECTION<a class="headerlink" href="#23-critical_section" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">CRITICAL_SECTION</span><span class="w"> </span><span class="n">cs</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">InitializeCriticalSectionAndSpinCount</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cs</span><span class="p">,</span><span class="w"> </span><span class="mi">4000</span><span class="p">);</span><span class="w">   </span><span class="cm">/* spin ~4000 iterations before blocking */</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">EnterCriticalSection</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cs</span><span class="p">);</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="cm">/* ... */</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">LeaveCriticalSection</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cs</span><span class="p">);</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">DeleteCriticalSection</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cs</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Structure (<code>RTL_CRITICAL_SECTION</code>): <code>LockCount</code> (encoded: locked bit, waiters count, wake flag),
+<code>RecursionCount</code>, <code>OwningThread</code>, <code>LockSemaphore</code> (the kernel wait object, allocated lazily on
+first contention), <code>SpinCount</code>. Fast path: <code>InterlockedCompareExchange</code> on <code>LockCount</code>. Contended:
+spin <code>SpinCount</code> times, then wait on the lazily created event / keyed event. Recursive: the owner
+re-entering increments <code>RecursionCount</code>.</p>
+<p>Portable description: "a recursive user-mode mutex with an adaptive spin before blocking". C++
+equivalent for most uses: <code>std::mutex</code> after you have removed the recursive entries (module 03).
+<code>!locks</code> and <code>!cs</code> in WinDbg resolve owners because <code>OwningThread</code> is recorded; this is the one
+diagnostic advantage CS has over SRWLOCK.</p>
+<h3 id="24-srwlock">2.4 SRWLOCK<a class="headerlink" href="#24-srwlock" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">SRWLOCK</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SRWLOCK_INIT</span><span class="p">;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">AcquireSRWLockShared</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w">    </span><span class="n">ReleaseSRWLockShared</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">AcquireSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w"> </span><span class="n">ReleaseSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">TryAcquireSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span><span class="w">   </span><span class="cm">/* Win7+ */</span>
+</span></code></pre></div>
+<p>One pointer-sized word. No recursion (re-acquiring exclusive from the owner deadlocks; acquiring
+shared while holding shared is permitted but undefined if a writer is waiting, so do not). No
+upgrade. Faster than CS even for exclusive-only use because there is no recursion check and no
+lazily allocated kernel object. Portable description: <code>std::shared_mutex</code>. If your server has
+CRITICAL_SECTIONs around read-mostly data, converting to SRWLOCK is the single easiest
+measurable win.</p>
+<h3 id="25-condition_variable">2.5 CONDITION_VARIABLE<a class="headerlink" href="#25-condition_variable" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">CONDITION_VARIABLE</span><span class="w"> </span><span class="n">cv</span><span class="p">;</span><span class="w">   </span><span class="n">InitializeConditionVariable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cv</span><span class="p">);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">SRWLOCK</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SRWLOCK_INIT</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cm">/* consumer */</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">AcquireSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">closed</span><span class="p">)</span><span class="w">                             </span><span class="cm">/* predicate loop, same as C++ */</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="n">SleepConditionVariableSRW</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cv</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">lock</span><span class="p">,</span><span class="w"> </span><span class="n">INFINITE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w">        </span><span class="cm">/* releases lock, waits, re-acquires */</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="cm">/* ... */</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">ReleaseSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="cm">/* producer */</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">AcquireSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">push</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="n">item</span><span class="p">);</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="n">ReleaseSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">WakeConditionVariable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cv</span><span class="p">);</span>
+</span></code></pre></div>
+<p><code>SleepConditionVariableCS</code> pairs with a CRITICAL_SECTION; <code>SleepConditionVariableSRW</code> with an
+SRWLOCK (the last argument <code>CONDITION_VARIABLE_LOCKMODE_SHARED</code> lets a shared holder wait). The
+documentation states that spurious wakeups occur and the condition must be re-checked. Everything
+in module 05 applies unchanged. If you still use Events for producer-consumer, this is the
+replacement.</p>
+<h3 id="26-events-and-semaphores">2.6 Events and Semaphores<a class="headerlink" href="#26-events-and-semaphores" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">evManual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateEvent</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">TRUE</span><span class="p">,</span><span class="w">  </span><span class="n">FALSE</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w">   </span><span class="cm">/* manual-reset, initially not set */</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">evAuto</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">CreateEvent</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w">   </span><span class="cm">/* auto-reset */</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">SetEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span><span class="w"> </span><span class="n">ResetEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">);</span><span class="w"> </span><span class="n">PulseEvent</span><span class="p">(</span><span class="n">ev</span><span class="p">)</span><span class="w"> </span><span class="cm">/* deprecated; unreliable */</span><span class="p">;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">WaitForSingleObject</span><span class="p">(</span><span class="n">ev</span><span class="p">,</span><span class="w"> </span><span class="n">timeout_ms</span><span class="p">);</span><span class="w">                       </span><span class="cm">/* WAIT_OBJECT_0, WAIT_TIMEOUT, WAIT_FAILED */</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">sem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateSemaphore</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">initial</span><span class="p">,</span><span class="w"> </span><span class="n">maximum</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">ReleaseSemaphore</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w">                            </span><span class="cm">/* count += 1 */</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">WaitForSingleObject</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span><span class="w"> </span><span class="n">INFINITE</span><span class="p">);</span><span class="w">                        </span><span class="cm">/* count -= 1 when &gt; 0 */</span>
+</span></code></pre></div>
+<p>Events are kernel objects: every <code>SetEvent</code> and every wait is a syscall (~1 µs typical), which is
+why a request queue signalled per item with an Event is slower than a CONDITION_VARIABLE that only
+enters the kernel when a thread is actually asleep. They are also cross-process and waitable in
+groups, which condition variables are not.</p>
+<p>Semantics to describe portably:</p>
+<ul>
+<li>Manual-reset event = a latch. C++: <code>std::promise&lt;void&gt;</code> / <code>std::shared_future&lt;void&gt;</code> for one
+  shot; <code>mutex + bool + condition_variable</code> with <code>notify_all</code> for resettable.</li>
+<li>Auto-reset event = a binary semaphore with coalescing. C++: <code>mutex + bool + condition_variable</code>
+  with <code>notify_one</code>. Note the coalescing hazard (module 05): two <code>SetEvent</code>s before a wait is one
+  wake.</li>
+<li>Semaphore = a counting semaphore. C++20: <code>std::counting_semaphore</code>. C++17: <code>mutex + int +
+  condition_variable</code>.</li>
+</ul>
+<h3 id="27-waitformultipleobjects">2.7 WaitForMultipleObjects<a class="headerlink" href="#27-waitformultipleobjects" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">HANDLE</span><span class="w"> </span><span class="n">h</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">hShutdownEvent</span><span class="p">,</span><span class="w"> </span><span class="n">hWorkSemaphore</span><span class="p">,</span><span class="w"> </span><span class="n">hTimer</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">DWORD</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WaitForMultipleObjects</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="w"> </span><span class="cm">/* any */</span><span class="p">,</span><span class="w"> </span><span class="n">INFINITE</span><span class="p">);</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="k">case</span><span class="w"> </span><span class="no">WAIT_OBJECT_0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="cm">/* shutdown */</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">case</span><span class="w"> </span><span class="no">WAIT_OBJECT_0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="cm">/* work */</span><span class="w">     </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">case</span><span class="w"> </span><span class="no">WAIT_OBJECT_0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="cm">/* timer */</span><span class="w">    </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">case</span><span class="w"> </span><span class="no">WAIT_FAILED</span><span class="p">:</span><span class="w"> </span><span class="cm">/* GetLastError() */</span><span class="w"> </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Limit <code>MAXIMUM_WAIT_OBJECTS</code> = 64. With <code>bWaitAll = FALSE</code> and several objects signalled, the
+<em>lowest index</em> is returned (so put the shutdown event first; this is why your shutdown is
+responsive). <code>WAIT_ABANDONED_0 + i</code> means a mutex handle whose owner died.</p>
+<p>No standard C++ equivalent. Portable rewrites:</p>
+<ul>
+<li>"Wait for shutdown or work" = one condition variable with predicate <code>closed || !queue.empty()</code>
+  (module 05). This covers 90% of WFMO use in request servers.</li>
+<li>"Wait for any of N heterogeneous events" = an actor mailbox: each source pushes a tagged message
+  into one queue (module 11).</li>
+<li>"Wait for all of N tasks" = N futures joined, or a counter plus condition variable (a latch;
+  <code>std::latch</code> in C++20).</li>
+<li>"Wait for socket or event" = <code>epoll</code> with an <code>eventfd</code> for the non-socket signal (08_Networking).</li>
+</ul>
+<h3 id="28-interlocked">2.8 Interlocked<a class="headerlink" href="#28-interlocked" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">LONG</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">InterlockedIncrement</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">);</span><span class="w">                                    </span><span class="cm">/* returns new value */</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">LONG</span><span class="w"> </span><span class="n">old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">InterlockedCompareExchange</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="cm">/*desired*/</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="cm">/*expected*/</span><span class="p">);</span><span class="w">   </span><span class="cm">/* returns old */</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">old</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* swapped */</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">InterlockedExchangePointer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">newp</span><span class="p">);</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">MemoryBarrier</span><span class="p">();</span>
+</span></code></pre></div>
+<p>All un-suffixed forms are full barriers (seq_cst) on every architecture. <code>Acquire</code> / <code>Release</code> /
+<code>NoFence</code> suffixed variants exist for ARM64; on x86 they compile to the same <code>lock</code> instruction.
+<code>volatile LONG</code> with <code>/volatile:ms</code> gives acquire loads and release stores, which is why many Win32
+flags "work"; under <code>/volatile:iso</code> (the default on ARM64) they do not. Portable: <code>std::atomic&lt;long&gt;</code>.</p>
+<p>Mapping the CAS convention: Win32 returns the <em>old value</em> and you compare it yourself; C++ returns
+<code>bool</code> and writes the current value into your <code>expected</code> variable on failure. Both express the
+same loop.</p>
+<h3 id="29-thread-pool-api-vista">2.9 Thread pool API (Vista+)<a class="headerlink" href="#29-thread-pool-api-vista" title="Permanent link">&para;</a></h3>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">PTP_POOL</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateThreadpool</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">SetThreadpoolThreadMaximum</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">SetThreadpoolThreadMinimum</span><span class="p">(</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">TP_CALLBACK_ENVIRON</span><span class="w"> </span><span class="n">env</span><span class="p">;</span><span class="w"> </span><span class="n">InitializeThreadpoolEnvironment</span><span class="p">(</span><span class="o">&amp;</span><span class="n">env</span><span class="p">);</span><span class="w"> </span><span class="n">SetThreadpoolCallbackPool</span><span class="p">(</span><span class="o">&amp;</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="n">pool</span><span class="p">);</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">VOID</span><span class="w"> </span><span class="n">CALLBACK</span><span class="w"> </span><span class="n">work_cb</span><span class="p">(</span><span class="n">PTP_CALLBACK_INSTANCE</span><span class="w"> </span><span class="n">inst</span><span class="p">,</span><span class="w"> </span><span class="n">PVOID</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">PTP_WORK</span><span class="w"> </span><span class="n">work</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">PTP_WORK</span><span class="w"> </span><span class="n">work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateThreadpoolWork</span><span class="p">(</span><span class="n">work_cb</span><span class="p">,</span><span class="w"> </span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">env</span><span class="p">);</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">SubmitThreadpoolWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span><span class="w">                        </span><span class="cm">/* may be submitted many times */</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">WaitForThreadpoolWorkCallbacks</span><span class="p">(</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">FALSE</span><span class="p">);</span><span class="w">       </span><span class="cm">/* wait for outstanding callbacks */</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">CloseThreadpoolWork</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">CloseThreadpool</span><span class="p">(</span><span class="n">pool</span><span class="p">);</span>
+</span></code></pre></div>
+<p>Also <code>CreateThreadpoolTimer</code>, <code>CreateThreadpoolWait</code> (wait on a handle and run a callback: this is
+how you get "wait for N &gt; 64 objects"), <code>CreateThreadpoolIo</code> (IOCP integration), and cleanup groups.
+There is no result/future; you build completion signalling yourself. It is a solid, well-tested
+pool and the right default for new Windows code; module 09's pool is what it looks like inside.
+The legacy <code>QueueUserWorkItem</code> is the older API with less control.</p>
+<h3 id="210-io-completion-ports-in-one-paragraph">2.10 I/O completion ports in one paragraph<a class="headerlink" href="#210-io-completion-ports-in-one-paragraph" title="Permanent link">&para;</a></h3>
+<p>An IOCP is a kernel queue of completed asynchronous I/O operations. You associate handles (sockets,
+files) with the port, issue overlapped operations (<code>WSARecv</code> with an <code>OVERLAPPED</code>), and a small
+number of threads (usually one per core) block in <code>GetQueuedCompletionStatus</code>, which returns one
+completion at a time. The kernel also limits how many threads it wakes concurrently to the
+port's concurrency value, so you get an event loop that is automatically multi-threaded. This is
+the Windows equivalent of an <code>epoll</code> + pool design, and the natural shape for a Windows server that
+must handle more connections than threads. <code>PostQueuedCompletionStatus</code> lets you inject your own
+messages, which is how you integrate a request queue with the same loop. 08_Networking covers the
+Linux side; the concepts are identical, the readiness-vs-completion distinction is the main
+difference (epoll tells you a socket <em>can</em> be read; IOCP tells you a read <em>has completed</em>).</p>
+<h2 id="3-code">3. Code<a class="headerlink" href="#3-code" title="Permanent link">&para;</a></h2>
+<p>File: <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m13_win32_threads.c"><code>code/m13_win32_threads.c</code></a> (Windows-only) — <code>_beginthreadex</code>, a CRITICAL_SECTION-guarded
+counter, an auto-reset Event based request queue showing the coalescing hazard, and a Semaphore
+based version that does not have it.</p>
+<p>File: <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m13_win32_srwlock_condvar.c"><code>code/m13_win32_srwlock_condvar.c</code></a> (Windows-only) — the module 05 producer-consumer queue in
+C with <code>SRWLOCK</code> and <code>CONDITION_VARIABLE</code>, with the same close-and-drain shutdown protocol, plus a
+<code>WaitForMultipleObjects</code> shutdown-or-work example and <code>InitOnceExecuteOnce</code>.</p>
+<p>Key fragment of the condition-variable queue in C:</p>
+<div class="language-c highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">SRWLOCK</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">CONDITION_VARIABLE</span><span class="w"> </span><span class="n">not_empty</span><span class="p">;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">CONDITION_VARIABLE</span><span class="w"> </span><span class="n">not_full</span><span class="p">;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="n">BOOL</span><span class="w"> </span><span class="n">closed</span><span class="p">;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">}</span><span class="w"> </span><span class="n">Queue</span><span class="p">;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">BOOL</span><span class="w"> </span><span class="nf">queue_pop</span><span class="p">(</span><span class="n">Queue</span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="n">AcquireSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">closed</span><span class="p">)</span><span class="w">                       </span><span class="cm">/* predicate loop */</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="n">SleepConditionVariableSRW</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">not_empty</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">,</span><span class="w"> </span><span class="n">INFINITE</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ReleaseSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">FALSE</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="cm">/* closed and drained */</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">q</span><span class="o">-&gt;</span><span class="n">buf</span><span class="p">[</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span><span class="p">];</span><span class="w"> </span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">64</span><span class="p">;</span><span class="w"> </span><span class="n">q</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">--</span><span class="p">;</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="n">ReleaseSRWLockExclusive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="n">WakeConditionVariable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">q</span><span class="o">-&gt;</span><span class="n">not_full</span><span class="p">);</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">TRUE</span><span class="p">;</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Compare line by line with <code>BoundedQueue::pop</code> in <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m05_producer_consumer.cpp"><code>m05_producer_consumer.cpp</code></a>. They are the same
+program.</p>
+<h2 id="4-under-the-hood-senior-level">4. Under the hood (senior-level)<a class="headerlink" href="#4-under-the-hood-senior-level" title="Permanent link">&para;</a></h2>
+<h3 id="kernel-objects-vs-user-mode-primitives">Kernel objects vs user-mode primitives<a class="headerlink" href="#kernel-objects-vs-user-mode-primitives" title="Permanent link">&para;</a></h3>
+<p>Win32 has two families. <strong>Kernel objects</strong> (Mutex, Event, Semaphore, WaitableTimer, Thread,
+Process, File) are referenced by <code>HANDLE</code>, live in the kernel's object manager, are securable and
+nameable, can be shared across processes, and are waited on through <code>NtWaitForSingleObject</code> /
+<code>NtWaitForMultipleObjects</code>. Every operation is a syscall and a kernel dispatcher lock. <strong>User-mode
+primitives</strong> (CRITICAL_SECTION, SRWLOCK, CONDITION_VARIABLE, INIT_ONCE, Interlocked) do their fast
+path with an interlocked instruction in user space and enter the kernel only to block, via keyed
+events (historically) or <code>NtWaitForAlertByThreadId</code> / <code>WaitOnAddress</code> (Windows 8+). This is the
+same split as glibc's futex-based primitives vs System V semaphores on Linux. The rule "use
+CRITICAL_SECTION unless you need cross-process or WFMO" is the rule "use the user-mode primitive
+unless you need a kernel feature".</p>
+<h3 id="keyed-events-and-waitonaddress">Keyed events and <code>WaitOnAddress</code><a class="headerlink" href="#keyed-events-and-waitonaddress" title="Permanent link">&para;</a></h3>
+<p>Before Windows 8, user-mode primitives blocked on a single global <strong>keyed event</strong> object: a wait
+is keyed by an address, and a wake releases the waiter with that key. That is a futex without the
+value check. Windows 8 added <code>WaitOnAddress(addr, compare, size, timeout)</code>: block only if <code>*addr</code>
+still equals <code>*compare</code>, which is exactly <code>FUTEX_WAIT</code>. <code>WakeByAddressSingle/All</code> are
+<code>FUTEX_WAKE</code>. Modern CRITICAL_SECTION and SRWLOCK use these. If you ever write your own primitive
+on Windows, <code>WaitOnAddress</code> is the building block, just as <code>futex</code> is on Linux.</p>
+<h3 id="dispatcher-objects-and-the-wait-block">Dispatcher objects and the wait block<a class="headerlink" href="#dispatcher-objects-and-the-wait-block" title="Permanent link">&para;</a></h3>
+<p>When a thread waits on a kernel object, the kernel allocates a wait block linking the thread to the
+object's wait list, marks the thread <code>Waiting</code>, and the scheduler picks another thread. <code>SetEvent</code>
+walks the wait list, satisfies the waits, and makes the threads ready, with a priority boost
+(<code>EVENT_INCREMENT</code>, +1) so that a thread woken for I/O or an event gets scheduled promptly. WFMO
+with <code>bWaitAll = TRUE</code> allocates one wait block per object and the thread becomes ready only when
+all are signalled. The 64-object limit is because the wait blocks are allocated in a fixed array in
+the thread's kernel structure.</p>
+<h3 id="priority-boosts-and-your-server">Priority boosts and your server<a class="headerlink" href="#priority-boosts-and-your-server" title="Permanent link">&para;</a></h3>
+<p>Windows boosts a thread's priority when it wakes from a wait (so a worker just handed a request runs
+soon) and decays it over a few quanta. This mostly helps a request server. It also means a thread
+that <em>never</em> waits (a spin loop) never gets boosted and can be starved by threads that do. On
+Linux CFS the analogous effect is that a sleeping task accumulates less virtual runtime and is
+favoured when it wakes. Either way: block, do not spin, in a user-space server.</p>
+<h3 id="why-srwlock-does-not-record-its-owner">Why SRWLOCK does not record its owner<a class="headerlink" href="#why-srwlock-does-not-record-its-owner" title="Permanent link">&para;</a></h3>
+<p>Recording the owner costs a store on every acquire and makes the structure larger than a pointer.
+SRWLOCK's design goal was a single word for both modes. The cost shows up in debugging: WinDbg's
+<code>!locks</code> cannot tell you who holds an SRWLOCK. If your server is SRWLOCK-heavy, keep a debug-build
+owner field next to each lock, written after acquire and cleared before release, so a dump can
+resolve it.</p>
+<h2 id="5-in-production">5. In production<a class="headerlink" href="#5-in-production" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Describing the synchronisation layer.</strong> "Per-connection state is behind a user-mode mutex
+  with a spin phase (CRITICAL_SECTION). Master tables are behind a reader-writer lock (SRWLOCK).
+  The request queue is a bounded buffer with a condition variable (or, if it still uses Events,
+  say: signalled with an auto-reset event, which we bounded with a semaphore to avoid coalesced
+  wakeups). Shutdown is a manual-reset event placed first in every WaitForMultipleObjects so
+  workers exit promptly. Counters use Interlocked operations, which are sequentially consistent on
+  x86." Every phrase is now precise and portable.</li>
+<li><strong>Converting Events to CONDITION_VARIABLE.</strong> The migration is mechanical: the Event becomes a
+  CONDITION_VARIABLE plus the predicate it stood for (queue non-empty, shutdown requested), the
+  <code>WaitForSingleObject</code> becomes the predicate loop with <code>SleepConditionVariableSRW</code>, the
+  <code>SetEvent</code> becomes "modify state under the lock, then Wake". The coalescing bug disappears. The
+  syscall per item disappears.</li>
+<li><strong>CS to SRWLOCK.</strong> Find the CRITICAL_SECTIONs around read-mostly data, confirm no recursive
+  entries (debug: assert <code>RecursionCount == 1</code> after each Enter, or temporarily switch to a
+  checker), convert. Measure p99 under concurrent load before and after.</li>
+<li><strong>TerminateThread.</strong> If the codebase has it, it is a latent heap corruption. Replace with a
+  cooperative stop flag checked by the thread. This is a good "what would you fix first" answer.</li>
+<li><strong>Dumps and SRWLOCK.</strong> Because <code>!locks</code> cannot resolve SRWLOCK owners, a hang analysis on an
+  SRWLOCK-heavy server needs your own owner tracking. Add it in debug builds now.</li>
+<li><strong>3 AM on Windows.</strong> <code>procdump -ma PID</code>, open in WinDbg, <code>!analyze -v -hang</code>, <code>~*k</code>, <code>!locks</code>.
+  Same procedure as module 12, same wait-for graph. <code>WAIT_ABANDONED</code> in a log means a thread died
+  holding a kernel Mutex; find the crash that killed it.</li>
+</ul>
+<h2 id="6-try-it">6. Try it<a class="headerlink" href="#6-try-it" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>(easy)</strong> Build <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m13_win32_threads.c"><code>m13_win32_threads.c</code></a> with MSVC or MinGW and run it. Observe the auto-reset
+   Event version losing a wake when two <code>SetEvent</code>s coalesce and the Semaphore version not. Done
+   when you can explain the difference in terms of state.</li>
+<li><strong>(easy)</strong> Build and run <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m13_win32_srwlock_condvar.c"><code>m13_win32_srwlock_condvar.c</code></a>. Put it side by side with
+   <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m05_producer_consumer.cpp"><code>m05_producer_consumer.cpp</code></a> and annotate each line with its equivalent. Done when every line has
+   a partner.</li>
+<li><strong>(medium)</strong> Write a table of every synchronisation primitive your real server uses (count
+   them: how many CRITICAL_SECTIONs, Events, Semaphores, Mutex handles, SRWLOCKs) and, for each,
+   the C++17 equivalent and whether a conversion would change behaviour (recursion, coalescing,
+   cross-process). Done when the table is complete and you have identified the one conversion with
+   the best payoff.</li>
+<li><strong>(medium)</strong> Implement <code>WaitOnAddress</code>-based spinlock-then-block mutex in C on Windows (fast
+   path interlocked, slow path <code>WaitOnAddress</code>, unlock <code>WakeByAddressSingle</code>). Compare its
+   uncontended cost to CRITICAL_SECTION. Done when both numbers are recorded and the design maps to
+   glibc's futex mutex in your explanation.</li>
+<li><strong>(hard)</strong> Rewrite the module 09 thread pool using the Vista thread pool API
+   (<code>CreateThreadpoolWork</code>), adding your own completion signalling with a per-task manual-reset
+   Event or a counter plus CONDITION_VARIABLE so that a submitter can wait for a result. Then
+   write a paragraph comparing it with <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/04_Concurrency/code/m09_thread_pool.hpp"><code>m09_thread_pool.hpp</code></a>: what the OS pool does for you and
+   what it does not (futures, exceptions, bounded queue). Done when both run the same workload
+   and the paragraph is written.</li>
+</ol>
+<h2 id="7-interview-questions">7. Interview questions<a class="headerlink" href="#7-interview-questions" title="Permanent link">&para;</a></h2>
+<p><strong>Q: Describe the synchronisation in your Windows server in portable terms.</strong>
+A user-mode recursive mutex with an adaptive spin phase (CRITICAL_SECTION) for per-connection state;
+a reader-writer lock (SRWLOCK) for read-mostly master tables; a bounded request queue with a
+condition variable (or event plus semaphore) for the pooled workers; a manual-reset shutdown latch
+checked first in every multi-object wait; sequentially consistent atomic counters (Interlocked). The
+C++17 names are <code>std::mutex</code>, <code>std::shared_mutex</code>, <code>std::condition_variable</code>, a promise/future or
+flag-under-mutex, and <code>std::atomic</code>.</p>
+<p><strong>Q: What is the difference between a CRITICAL_SECTION and a Win32 Mutex handle?</strong>
+A CRITICAL_SECTION is a user-mode lock: interlocked fast path, optional spin, kernel wait only on
+contention, intra-process only, recursive, records its owner. A Mutex handle is a kernel object:
+every acquire is a syscall, works across processes, can be waited on with other handles via
+<code>WaitForMultipleObjects</code>, has a timeout on acquire, and reports abandonment if the owner dies.</p>
+<p><strong>Q: How does a Win32 Event differ from a condition variable, and which is the C++ equivalent?</strong>
+An Event is a kernel object with state: a set with no waiter persists, and an auto-reset Event
+coalesces multiple sets into one wake. A condition variable is stateless and must be paired with a
+predicate under a mutex. C++ has only the condition variable; an Event is modelled as a flag or
+count under a mutex with a condition variable, or <code>std::promise&lt;void&gt;</code> for a one-shot latch.
+Windows also has <code>CONDITION_VARIABLE</code>, which is the same as the C++ one.</p>
+<p><strong>Q: What does <code>WaitForMultipleObjects</code> do and what is the portable replacement?</strong>
+Blocks until any (or all) of up to 64 kernel objects are signalled, returning the lowest signalled
+index. No standard C++ equivalent. Portable designs: one condition variable with a composite
+predicate (shutdown or work), a single tagged message queue for heterogeneous events, a latch or
+joined futures for wait-all, and epoll with an eventfd for sockets plus signals.</p>
+<p><strong>Q: Are Interlocked operations the same as <code>std::atomic</code>?</strong>
+Un-suffixed Interlocked functions are atomic read-modify-writes with full barrier (seq_cst)
+semantics. <code>std::atomic</code> defaults to seq_cst and offers weaker orders; Win32 added <code>Acquire</code>,
+<code>Release</code> and <code>NoFence</code> suffixes for ARM64 to match. The CAS convention differs: Win32 returns the
+old value, C++ returns a bool and updates <code>expected</code>.</p>
+<p><strong>Q: What is <code>WaitOnAddress</code>?</strong>
+Windows 8's futex: block the calling thread only if the value at an address still equals a
+comparand, and wake with <code>WakeByAddressSingle/All</code>. It is the building block under modern
+CRITICAL_SECTION, SRWLOCK and CONDITION_VARIABLE, exactly as <code>futex(2)</code> is under glibc's mutex and
+condition variable.</p>
+<p><strong>Q: What is an I/O completion port?</strong>
+A kernel queue of completed overlapped I/O operations on associated handles, drained by a bounded
+set of threads blocked in <code>GetQueuedCompletionStatus</code>, with the kernel limiting concurrent active
+threads to a configured value. It is the Windows event loop and the counterpart of epoll plus a
+pool on Linux, with completion semantics rather than readiness semantics.</p>
+<h2 id="8-recap">8. Recap<a class="headerlink" href="#8-recap" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Two families: kernel objects (handles, syscalls, cross-process, WFMO) and user-mode primitives
+  (interlocked fast path, block only on contention). Same split as System V vs futex on Linux.</li>
+<li>CRITICAL_SECTION = recursive spinning <code>std::mutex</code>; SRWLOCK = <code>std::shared_mutex</code>;
+  CONDITION_VARIABLE = <code>std::condition_variable</code>; INIT_ONCE = <code>std::call_once</code>.</li>
+<li>Events have state and coalesce; condition variables do not. Model an Event as flag + mutex + cv.</li>
+<li>Semaphore = counting semaphore; C++20 has it, C++17 builds it from mutex + int + cv.</li>
+<li>WaitForMultipleObjects has no standard equivalent; use composite predicates, one queue, latches,
+  or epoll.</li>
+<li>Interlocked = seq_cst atomics; CAS return convention differs from C++.</li>
+<li><code>WaitOnAddress</code> is the Windows futex.</li>
+<li>Vista thread pool is a fine default on Windows; it lacks futures and bounded queues.</li>
+<li>IOCP = completion-based event loop, the Windows epoll-plus-pool.</li>
+<li>SRWLOCK does not record owners; add debug owner tracking for dump analysis.</li>
+<li>Never <code>TerminateThread</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../12_debugging_concurrency_bugs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 12. Debugging concurrency bugs">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                12. Debugging concurrency bugs
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../EXERCISES/" class="md-footer__link md-footer__link--next" aria-label="Next: Exercises">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Exercises
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/khanshaki-r" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../assets/progress.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,7631 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A 12-week, production-depth curriculum in C, modern C++, concurrency, debugging, Linux, databases and distributed systems.">
+      
+      
+        <meta name="author" content="MD Shakir Khan">
+      
+      
+        <link rel="canonical" href="https://khanshaki-r.github.io/c-cpp-systems-learning-path/06_Linux_Toolchain_DevOps/12_windows_toolchain_reference/">
+      
+      
+        <link rel="prev" href="../11_linux_systems_programming_essentials/">
+      
+      
+        <link rel="next" href="../EXERCISES/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side - C, C++ Systems Engineering Learning Path</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-windows-toolchain-reference-msvc-msbuild-vcpkg-windbg-and-linux-side-by-side" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-header__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C, C++ Systems Engineering Learning Path
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="C, C++ Systems Engineering Learning Path" class="md-nav__button md-logo" aria-label="C, C++ Systems Engineering Learning Path" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 4h12v1h3v2h-3v2h3v2h-3v2h3v2h-3v2h3v2h-3v1H6v-1H3v-2h3v-2H3v-2h3v-2H3V9h3V7H3V5h3zm5 11v3h1v-3zm2 0v3h1v-3zm2 0v3h1v-3z"/></svg>
+
+    </a>
+    C, C++ Systems Engineering Learning Path
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    khanshaki-r/c-cpp-systems-learning-path
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_START_HERE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start here
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_Environment_Setup/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment Setup
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Environment Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/01_vscode_wsl_dev_loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. VS Code + WSL development loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_Environment_Setup/02_verify_toolchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Verify the toolchain: build, test, debug, sanitize
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../12_C_Programming/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    C Programming
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    C Programming
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/01_how_c_really_works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How C really works: from source files to a running program
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/02_types_integers_and_conversions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Types, integers and conversions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/03_pointers_from_the_ground_up/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Pointers from the ground up
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/04_memory_storage_scope_and_lifetime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Memory: storage duration, scope and lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/05_strings_and_buffers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Strings and buffers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/06_structs_unions_enums_and_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Structs, unions, enums and memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/07_functions_function_pointers_and_callbacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Functions, function pointers and callbacks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/08_the_preprocessor_and_macros/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. The preprocessor and macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/09_undefined_behaviour_and_the_optimizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Undefined behaviour and the optimizer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/10_error_handling_and_resource_cleanup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling and resource cleanup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/11_data_structures_in_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Data structures in C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/12_memory_allocators_arena_pool_and_malloc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory allocators: arena, pool and a teaching malloc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/13_files_io_and_posix_system_calls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Files, I/O and POSIX system calls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/14_multithreading_in_c_pthreads_and_c11/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Multithreading in C: pthreads and C11
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/15_reading_debugging_and_changing_legacy_c/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Reading, debugging and changing legacy C
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/16_modern_c_and_the_c_interview_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Modern C and the C interview playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../12_C_Programming/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../02_Modern_CPP/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern C++17
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modern C++17
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/01_from_c_to_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. From C to C++: what actually changes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/02_classes_constructors_destructors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Classes, constructors and destructors: object lifetime
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/03_raii_the_core_idea/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. RAII: the core idea of C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/04_value_semantics_copy_move/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Value semantics: copy, move, and the rule of five
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/05_smart_pointers_and_ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Smart pointers and ownership design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/06_stl_containers_deep_dive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. STL containers deep dive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/07_stl_algorithms_lambdas_iterators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. STL algorithms, lambdas and iterators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/08_templates_and_generic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Templates and generic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/09_oop_inheritance_virtual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. OOP: inheritance, virtual functions and what a vtable really is
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/10_error_handling_exceptions_optional_expected/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Error handling: exceptions, optional, variant, error_code
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/11_const_constexpr_and_compile_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. const, constexpr and compile-time programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/12_memory_model_layout_and_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Memory layout, allocation and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/13_cpp17_features_tour/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. C++17 features tour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/14_writing_production_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Writing production C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../02_Modern_CPP/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_Data_Structures_Algorithms/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Structures & Algorithms
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Data Structures & Algorithms
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/01_complexity_and_how_to_think/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Complexity and how to think
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/02_arrays_vectors_two_pointers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Arrays, vectors and two pointers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/03_strings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Strings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/04_hashing_hash_tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Hashing and hash tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/05_linked_lists/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Linked lists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/06_stacks_queues_deques/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Stacks, queues and deques
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/07_recursion_and_backtracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Recursion and backtracking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/08_sorting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Sorting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/09_binary_search_and_ordered_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Binary search and ordered data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/10_trees_bst/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Trees and binary search trees
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/11_balanced_trees_btree_and_disk/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Balanced trees, B-trees and disk
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/12_heaps_priority_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Heaps and priority queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/13_graphs_bfs_dfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Graphs: BFS, DFS and friends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/14_dynamic_programming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Dynamic programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/15_tries_and_bit_manipulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Tries and bit manipulation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/16_interview_coding_playbook/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Interview coding playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_Data_Structures_Algorithms/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../04_Concurrency/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concurrency
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concurrency
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/01_processes_threads_and_the_os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Processes, threads and the OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/02_data_races_and_why_they_are_ub/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Data races and why they are undefined behaviour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/03_mutexes_lock_guard_unique_lock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mutexes: lock_guard, unique_lock, scoped_lock
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/04_shared_mutex_and_readers_writers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. shared_mutex and readers-writers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/05_condition_variables_and_wait_objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Condition variables and wait objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/06_deadlocks_livelocks_starvation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Deadlocks, livelocks and starvation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/07_atomics_and_the_memory_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Atomics and the memory model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/08_lock_free_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Lock-free basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/09_thread_pools_and_task_queues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Thread pools and task queues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/10_cache_lines_false_sharing_performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Cache lines, false sharing and performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/11_concurrency_patterns_for_servers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Concurrency patterns for servers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/12_debugging_concurrency_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Debugging concurrency bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/13_win32_concurrency_reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Win32 concurrency reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_Concurrency/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_Memory_Debugging_RCA/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Memory, Debugging & RCA
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Memory, Debugging & RCA
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/01_process_memory_layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Process memory layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/02_stack_frames_and_calling_conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Stack frames and calling conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/03_the_heap_malloc_internals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The heap: malloc internals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/04_the_catalogue_of_memory_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. The catalogue of memory bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/05_gdb_from_zero_to_fluent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. gdb from zero to fluent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/06_core_dumps_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Core dumps on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/07_windbg_and_windows_crash_dumps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. WinDbg and Windows crash dumps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/08_valgrind_and_sanitizers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Valgrind and the sanitizers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/09_leaks_and_memory_growth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Leaks and memory growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/10_concurrency_crashes_and_heisenbugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Concurrency crashes and Heisenbugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/11_production_incident_triage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Production incident triage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/12_writing_a_formal_rca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Writing a formal RCA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/13_defensive_design_to_prevent_the_bugs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Defensive design to prevent the bugs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_Memory_Debugging_RCA/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Linux, Toolchain & DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Linux, Toolchain & DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_linux_for_a_windows_developer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Linux for a Windows developer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_how_a_cpp_program_is_built/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. How a C++ program is built
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_gcc_and_clang_flags_that_matter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. GCC and Clang flags that matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_make_and_cmake_from_scratch/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Make and CMake from scratch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_testing_with_googletest_and_ctest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Testing with GoogleTest and ctest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_git_properly/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Git properly
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_debugging_and_profiling_tools_on_linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Debugging and profiling tools on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_docker_for_cpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Docker for C++
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09_ci_cd_github_actions_and_azure_devops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. CI/CD with GitHub Actions and Azure DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10_scripting_bash_and_a_little_python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Scripting: bash for build, test and deploy, and a little Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11_linux_systems_programming_essentials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Linux systems programming essentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-pieces-of-the-msvc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The pieces of the MSVC toolchain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-clexe-flags-against-gcc-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 cl.exe flags against GCC flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-libraries-lib-dll-and-the-import-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Libraries: .lib, .dll and the import library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-msbuild-and-cmake-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 MSBuild and CMake on Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-vcpkg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 vcpkg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-visual-studio-debugger-the-features-worth-knowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Visual Studio debugger: the features worth knowing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-windbg-windbg-preview-now-just-windbg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 WinDbg (WinDbg Preview, now just "WinDbg")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-procdump-and-windows-error-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 ProcDump and Windows Error Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-dumpbin-and-the-rest-of-the-inspection-kit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 dumpbin and the rest of the inspection kit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-the-interview-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 The interview table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../07_Databases_Internals/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Database Internals
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_10" id="__nav_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Database Internals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/01_what_a_database_actually_does/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. What a database actually does
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/02_storage_engines_pages_and_heap_files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Storage engines: pages and heap files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/03_btree_indexes_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. B-tree indexes in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/04_wal_and_crash_recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Write-ahead logging and crash recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/05_transactions_acid_mvcc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Transactions, ACID and MVCC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/06_query_planning_and_explain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Query planning and reading EXPLAIN
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/07_sql_for_backend_engineers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. SQL for backend engineers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/08_plpgsql_stored_procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. PL/pgSQL stored procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/09_schema_design_and_data_modelling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Schema design and data modelling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/10_berkeley_db_and_embedded_kv_stores/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Berkeley DB and embedded key-value stores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/11_yugabytedb_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. YugabyteDB and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/12_migrating_a_kv_store_to_relational/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Migrating a key-value store to a relational database
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/13_caching_and_redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Caching and Redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/14_performance_tuning_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Performance tuning and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_Databases_Internals/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../08_Networking_Distributed/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking & Distributed Systems
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_11" id="__nav_11_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Networking & Distributed Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/01_how_the_internet_moves_bytes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. How the internet moves bytes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/02_tcp_in_depth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. TCP in depth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/03_sockets_api_blocking_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. The sockets API and a blocking server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/04_framing_and_protocol_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Framing and protocol design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/05_thread_per_connection_and_thread_pools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Thread-per-connection and thread pools
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/06_nonblocking_io_epoll_event_loops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Non-blocking I/O, epoll and event loops
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/07_rpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. RPC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/08_http_and_rest/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. HTTP and REST
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/09_client_server_architecture_and_reliability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Client-server architecture and reliability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/10_distributed_systems_fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Distributed systems fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/11_consensus_raft_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Consensus: Raft in plain words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/12_sharding_partitioning_and_distributed_sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Sharding, partitioning and distributed SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/13_high_availability_and_operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. High availability and operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/14_system_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. System design interview walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../08_Networking_Distributed/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../09_OOP_Design_Patterns_Architecture/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OOP, Patterns & Architecture
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_12" id="__nav_12_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    OOP, Patterns & Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/01_oop_for_a_c_programmer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. OOP for a C Programmer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/02_solid_in_plain_words/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. SOLID in Plain Words
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/03_ownership_and_object_lifetime_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Ownership and Object Lifetime Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/04_creational_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. Creational Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/05_structural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. Structural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/06_behavioural_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. Behavioural Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/07_concurrency_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. Concurrency Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/08_modern_cpp_alternatives_to_classic_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. Modern C++ Alternatives to Classic Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/09_designing_a_server_codebase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. Designing a Server Codebase
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/10_api_design_and_code_quality/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. API Design and Code Quality
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/11_low_level_design_interview_walkthroughs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Low-Level Design Interview Walkthroughs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/12_uml_and_communicating_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. UML and Communicating Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/EXERCISES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercises
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_OOP_Design_Patterns_Architecture/INTERVIEW_QA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../10_Capstone_Projects/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Capstone Projects
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_13" id="__nav_13_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Capstone Projects
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_2" id="__nav_13_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    minidb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/minidb/01_build_plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    minidb build plan: eight steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_13_3" id="__nav_13_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_13_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tcpkv
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/00_spec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/01_step_project_skeleton_and_cmake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 01. Project skeleton, CMake, CI with a hello test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/02_step_raii_fd_and_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 02. RAII FileDescriptor and Socket wrappers (move-only), with unit tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/03_step_protocol_parser/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 03. Protocol parser: incremental state machine, with malformed-input tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/04_step_store_with_shared_mutex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 04. Store with `std::shared_mutex`: single-thread tests, then multi-thread stress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/05_step_blocking_single_threaded_server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 05. A blocking single-threaded server, tested by hand with `nc`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/06_step_thread_pool_connection_and_shutdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 06. Thread pool, move-only Connection handles, graceful shutdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/07_step_client_library_and_cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 07. Client library and `tcpkv_cli`
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/08_step_sanitizers_and_load_generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 08. Load generator, ASan, TSan, UBSan and Valgrind: clean under concurrent load
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/09_step_metrics_logging_and_extras/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 09. Metrics, logging, `STATS`, TTL, and `KEYS` revisited
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/10_step_polish_release_and_resume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 10. Polish, benchmark, release v1.0.0, go public, write the resume bullets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_Capstone_Projects/tcpkv/INTERVIEW_TALKING_POINTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tcpkv: interview talking points
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-in-plain-words" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. In plain words
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-real-thing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The real thing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. The real thing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-pieces-of-the-msvc-toolchain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The pieces of the MSVC toolchain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-clexe-flags-against-gcc-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 cl.exe flags against GCC flags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-libraries-lib-dll-and-the-import-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Libraries: .lib, .dll and the import library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-msbuild-and-cmake-on-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 MSBuild and CMake on Windows
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-vcpkg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 vcpkg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-visual-studio-debugger-the-features-worth-knowing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Visual Studio debugger: the features worth knowing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27-windbg-windbg-preview-now-just-windbg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7 WinDbg (WinDbg Preview, now just "WinDbg")
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-procdump-and-windows-error-reporting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.8 ProcDump and Windows Error Reporting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-dumpbin-and-the-rest-of-the-inspection-kit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9 dumpbin and the rest of the inspection kit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#210-the-interview-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.10 The interview table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-under-the-hood-senior-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Under the hood (senior-level)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-in-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. In production
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-try-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Try it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-interview-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Interview questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Recap
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/edit/main/LEARNING_PATH/06_Linux_Toolchain_DevOps/12_windows_toolchain_reference.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="12-windows-toolchain-reference-msvc-msbuild-vcpkg-windbg-and-linux-side-by-side">12. Windows toolchain reference: MSVC, MSBuild, vcpkg, WinDbg, and Linux side by side<a class="headerlink" href="#12-windows-toolchain-reference-msvc-msbuild-vcpkg-windbg-and-linux-side-by-side" title="Permanent link">&para;</a></h1>
+<p><strong>Time:</strong> ~2 hours   <strong>Prerequisites:</strong> 02, 03, 04, 07</p>
+<h2 id="1-in-plain-words">1. In plain words<a class="headerlink" href="#1-in-plain-words" title="Permanent link">&para;</a></h2>
+<p>You already use most of these tools at work. This module does two things. First, it fills the
+gaps: the parts of the Windows toolchain people use daily without knowing what is underneath
+(what <code>/MD</code> really selects, why LNK2038 happens, how a PDB is matched to a crash dump). Second, it
+lines everything up against the Linux tools from modules 01 to 11, one row per concept, so that in
+an interview you can answer "how would you do X on Linux?" by saying "on Windows I did it with Y;
+on Linux it is Z, and here is the one way they differ".</p>
+<p>That comparison is your selling point. Many Linux C++ candidates have never seen a crash dump
+from a customer machine; many Windows developers have never written a CMakeLists.txt. You will be
+able to talk about both precisely.</p>
+<p>Analogy: two cities with the same services under different names. Both have a post office, a
+hospital and a bank. If you know where each is in one city and the name it goes by in the other,
+you can work in either one.</p>
+<h2 id="2-the-real-thing">2. The real thing<a class="headerlink" href="#2-the-real-thing" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-pieces-of-the-msvc-toolchain">2.1 The pieces of the MSVC toolchain<a class="headerlink" href="#21-the-pieces-of-the-msvc-toolchain" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>File</th>
+<th>Linux equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compiler driver</td>
+<td><code>cl.exe</code></td>
+<td><code>g++</code> / <code>clang++</code></td>
+</tr>
+<tr>
+<td>Linker</td>
+<td><code>link.exe</code></td>
+<td><code>ld</code> (GNU ld, gold, lld, mold), usually called through <code>g++</code></td>
+</tr>
+<tr>
+<td>Static library tool</td>
+<td><code>lib.exe</code></td>
+<td><code>ar</code></td>
+</tr>
+<tr>
+<td>Binary inspector</td>
+<td><code>dumpbin.exe</code> (= <code>link /dump</code>)</td>
+<td><code>objdump</code>, <code>readelf</code>, <code>nm</code>, <code>ldd</code></td>
+</tr>
+<tr>
+<td>Name demangler</td>
+<td><code>undname.exe</code></td>
+<td><code>c++filt</code></td>
+</tr>
+<tr>
+<td>Build engine</td>
+<td>MSBuild (<code>.sln</code>, <code>.vcxproj</code>)</td>
+<td>Make, Ninja</td>
+</tr>
+<tr>
+<td>Meta-build</td>
+<td>CMake (also generates <code>.sln</code>)</td>
+<td>CMake</td>
+</tr>
+<tr>
+<td>Package manager</td>
+<td>vcpkg, NuGet, Conan</td>
+<td>vcpkg, Conan, <code>apt install lib*-dev</code></td>
+</tr>
+<tr>
+<td>Platform headers and libs</td>
+<td>Windows SDK (<code>windows.h</code>, <code>kernel32.lib</code>)</td>
+<td>glibc headers, <code>/usr/include</code>, <code>/usr/lib</code></td>
+</tr>
+<tr>
+<td>C runtime</td>
+<td>UCRT (<code>ucrtbase.dll</code>) + <code>vcruntime140.dll</code></td>
+<td>glibc (<code>libc.so.6</code>)</td>
+</tr>
+<tr>
+<td>C++ standard library</td>
+<td>MSVC STL (<code>msvcp140.dll</code>)</td>
+<td>libstdc++ (<code>libstdc++.so.6</code>) or libc++</td>
+</tr>
+<tr>
+<td>Debugger</td>
+<td>Visual Studio debugger, WinDbg</td>
+<td>GDB, LLDB</td>
+</tr>
+<tr>
+<td>Debug info</td>
+<td><code>.pdb</code> files, separate from the binary</td>
+<td>DWARF sections inside the ELF, or split <code>.debug</code> files</td>
+</tr>
+</tbody>
+</table>
+<p>The compiler is not on <code>PATH</code> by default. The <strong>Developer Command Prompt</strong> (or
+<code>vcvars64.bat</code>, or <code>Enter-VsDevShell</code> in PowerShell) sets <code>PATH</code>, <code>INCLUDE</code>, <code>LIB</code> and <code>LIBPATH</code>
+to the right MSVC and SDK versions. CI tasks and CMake's Visual Studio generator do this for you.
+On Linux the compiler is simply in <code>/usr/bin</code>.</p>
+<h3 id="22-clexe-flags-against-gcc-flags">2.2 cl.exe flags against GCC flags<a class="headerlink" href="#22-clexe-flags-against-gcc-flags" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>MSVC</th>
+<th>GCC / Clang</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard</td>
+<td><code>/std:c++17</code></td>
+<td><code>-std=c++17</code></td>
+</tr>
+<tr>
+<td>Strict conformance</td>
+<td><code>/permissive-</code> (on by default in new VS projects)</td>
+<td>default; <code>-pedantic</code></td>
+</tr>
+<tr>
+<td>Correct <code>__cplusplus</code></td>
+<td><code>/Zc:__cplusplus</code></td>
+<td>always correct</td>
+</tr>
+<tr>
+<td>Exceptions</td>
+<td><code>/EHsc</code></td>
+<td>on by default</td>
+</tr>
+<tr>
+<td>No optimisation</td>
+<td><code>/Od</code></td>
+<td><code>-O0</code></td>
+</tr>
+<tr>
+<td>Optimise</td>
+<td><code>/O2</code> (speed), <code>/O1</code> (size)</td>
+<td><code>-O2</code>, <code>-Os</code></td>
+</tr>
+<tr>
+<td>Whole program / LTO</td>
+<td><code>/GL</code> + <code>/LTCG</code></td>
+<td><code>-flto</code></td>
+</tr>
+<tr>
+<td>Debug info</td>
+<td><code>/Zi</code> (PDB), <code>/Z7</code> (in .obj)</td>
+<td><code>-g</code></td>
+</tr>
+<tr>
+<td>Linker debug info</td>
+<td><code>/DEBUG</code> (<code>/DEBUG:FULL</code>)</td>
+<td>part of <code>-g</code></td>
+</tr>
+<tr>
+<td>Warnings</td>
+<td><code>/W4</code></td>
+<td><code>-Wall -Wextra</code></td>
+</tr>
+<tr>
+<td>All warnings</td>
+<td><code>/Wall</code> (very noisy)</td>
+<td>Clang <code>-Weverything</code></td>
+</tr>
+<tr>
+<td>Warnings as errors</td>
+<td><code>/WX</code></td>
+<td><code>-Werror</code></td>
+</tr>
+<tr>
+<td>Static analysis</td>
+<td><code>/analyze</code></td>
+<td><code>clang-tidy</code>, <code>-fanalyzer</code> (GCC)</td>
+</tr>
+<tr>
+<td>Define</td>
+<td><code>/DNAME=1</code></td>
+<td><code>-DNAME=1</code></td>
+</tr>
+<tr>
+<td>Include dir</td>
+<td><code>/I path</code></td>
+<td><code>-I path</code></td>
+</tr>
+<tr>
+<td>AddressSanitizer</td>
+<td><code>/fsanitize=address</code> (VS 2019 16.9+)</td>
+<td><code>-fsanitize=address</code></td>
+</tr>
+<tr>
+<td>UBSan, TSan, MSan</td>
+<td>not available in MSVC</td>
+<td><code>-fsanitize=undefined,thread,memory</code></td>
+</tr>
+<tr>
+<td>Stack protector</td>
+<td><code>/GS</code> (default on)</td>
+<td><code>-fstack-protector-strong</code></td>
+</tr>
+<tr>
+<td>Control-flow guard</td>
+<td><code>/guard:cf</code></td>
+<td><code>-fcf-protection</code></td>
+</tr>
+<tr>
+<td>Source charset</td>
+<td><code>/utf-8</code></td>
+<td>UTF-8 by default</td>
+</tr>
+<tr>
+<td>Parallel compile</td>
+<td><code>/MP</code></td>
+<td><code>make -j</code>, Ninja (default parallel)</td>
+</tr>
+<tr>
+<td>Remove unused code</td>
+<td><code>/OPT:REF /OPT:ICF</code> (linker)</td>
+<td><code>-ffunction-sections -Wl,--gc-sections</code>, <code>--icf</code> (lld/gold)</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>runtime library</strong> switch has no direct GCC counterpart and is the source of most MSVC link
+errors:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Meaning</th>
+<th>CMake <code>CMAKE_MSVC_RUNTIME_LIBRARY</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/MD</code></td>
+<td>release CRT and STL as DLLs</td>
+<td><code>MultiThreadedDLL</code> (CMake default)</td>
+</tr>
+<tr>
+<td><code>/MDd</code></td>
+<td>debug CRT as DLLs (checked iterators, debug heap)</td>
+<td><code>MultiThreadedDebugDLL</code></td>
+</tr>
+<tr>
+<td><code>/MT</code></td>
+<td>release CRT linked statically into the module</td>
+<td><code>MultiThreaded</code></td>
+</tr>
+<tr>
+<td><code>/MTd</code></td>
+<td>debug CRT statically</td>
+<td><code>MultiThreadedDebug</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every object file and static library linked into one module must use the same choice. Mixing
+gives <code>LNK2038: mismatch detected for 'RuntimeLibrary'</code> or for <code>'_ITERATOR_DEBUG_LEVEL'</code> (Debug
+and Release objects mixed). On Linux there is one glibc and one libstdc++ for the whole process,
+so this class of error does not exist; the nearest equivalent is mixing <code>_GLIBCXX_DEBUG</code> and
+normal objects, or the libstdc++ dual ABI (<code>_GLIBCXX_USE_CXX11_ABI</code>).</p>
+<h3 id="23-libraries-lib-dll-and-the-import-library">2.3 Libraries: .lib, .dll and the import library<a class="headerlink" href="#23-libraries-lib-dll-and-the-import-library" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Windows</th>
+<th>Linux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object file</td>
+<td><code>.obj</code> (COFF)</td>
+<td><code>.o</code> (ELF)</td>
+</tr>
+<tr>
+<td>Static library</td>
+<td><code>.lib</code> (archive of <code>.obj</code>)</td>
+<td><code>.a</code> (archive of <code>.o</code>)</td>
+</tr>
+<tr>
+<td>Shared library</td>
+<td><code>.dll</code></td>
+<td><code>.so</code></td>
+</tr>
+<tr>
+<td>What you link against</td>
+<td>the <strong>import library</strong> <code>.lib</code> that comes with the DLL</td>
+<td>the <code>.so</code> itself</td>
+</tr>
+<tr>
+<td>Executable format</td>
+<td>PE/COFF (<code>.exe</code>)</td>
+<td>ELF (no extension)</td>
+</tr>
+<tr>
+<td>Exported by default</td>
+<td><strong>nothing</strong>: <code>__declspec(dllexport)</code> or a <code>.def</code> file</td>
+<td><strong>everything</strong> with default visibility; <code>-fvisibility=hidden</code> to opt out</td>
+</tr>
+<tr>
+<td>Run-time search</td>
+<td>app directory, system directories, <code>PATH</code> (simplified)</td>
+<td><code>RPATH</code>/<code>RUNPATH</code>, <code>LD_LIBRARY_PATH</code>, <code>ld.so.cache</code>, <code>/lib</code>, <code>/usr/lib</code></td>
+</tr>
+<tr>
+<td>Embedded search path</td>
+<td>none (use app directory, <code>SetDllDirectory</code>, side-by-side manifests)</td>
+<td><code>-Wl,-rpath,'$ORIGIN/../lib'</code></td>
+</tr>
+<tr>
+<td>Load at run time</td>
+<td><code>LoadLibraryW</code> / <code>GetProcAddress</code> / <code>FreeLibrary</code></td>
+<td><code>dlopen</code> / <code>dlsym</code> / <code>dlclose</code></td>
+</tr>
+<tr>
+<td>List dependencies</td>
+<td><code>dumpbin /dependents app.exe</code>, Dependencies tool</td>
+<td><code>ldd app</code>, <code>readelf -d app</code></td>
+</tr>
+<tr>
+<td>List exports</td>
+<td><code>dumpbin /exports x.dll</code></td>
+<td><code>nm -D --defined-only x.so</code></td>
+</tr>
+<tr>
+<td>Position independent</td>
+<td>DLLs are relocated (ASLR) using a relocation table</td>
+<td><code>-fPIC</code> required for <code>.so</code></td>
+</tr>
+</tbody>
+</table>
+<p>The portable export macro every cross-platform library has:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// include/tcpkv/export.hpp - CMake's GenerateExportHeader produces the same thing for you.</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#pragma once</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#if defined(_WIN32)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="cp">#  if defined(TCPKV_BUILDING_DLL)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="cp">#    define TCPKV_API __declspec(dllexport)   </span><span class="c1">// compiling the DLL itself</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="cp">#  else</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cp">#    define TCPKV_API __declspec(dllimport)   </span><span class="c1">// compiling a consumer of the DLL</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="cp">#  endif</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="cp">#else</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="cp">#  define TCPKV_API __attribute__((visibility("default")))   </span><span class="c1">// with -fvisibility=hidden</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="cp">#endif</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">TCPKV_API</span><span class="w"> </span><span class="n">Store</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">};</span>
+</span></code></pre></div>
+<p>Link errors, translated:</p>
+<table>
+<thead>
+<tr>
+<th>MSVC</th>
+<th>GNU ld</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LNK2019: unresolved external symbol "int __cdecl add(int,int)" (?add@@YAHHH@Z) referenced in function main</code></td>
+<td><code>undefined reference to 'add(int, int)'</code></td>
+<td>declared, used, never defined in what you linked</td>
+</tr>
+<tr>
+<td><code>LNK2001: unresolved external symbol</code></td>
+<td>same</td>
+<td>same, reference not inside a function (e.g. a vtable or data)</td>
+</tr>
+<tr>
+<td><code>LNK2005: "x" already defined in a.obj</code></td>
+<td><code>multiple definition of 'x'</code></td>
+<td>ODR violation the linker can see (module 02)</td>
+</tr>
+<tr>
+<td><code>LNK1104: cannot open file 'foo.lib'</code></td>
+<td><code>cannot find -lfoo</code></td>
+<td>library path or name wrong</td>
+</tr>
+<tr>
+<td><code>LNK2038: mismatch detected for 'RuntimeLibrary'</code></td>
+<td>(no equivalent)</td>
+<td><code>/MT</code> and <code>/MD</code> objects mixed</td>
+</tr>
+<tr>
+<td><code>LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs</code></td>
+<td>(no equivalent)</td>
+<td>two CRTs requested; same root cause</td>
+</tr>
+</tbody>
+</table>
+<p>The three causes of an unresolved symbol are the same on both platforms: the definition is
+missing from the link, the names differ (C vs C++ linkage, a different signature, <code>__cdecl</code> vs
+<code>__stdcall</code> on 32-bit), or, for Windows only, the function is in a DLL that does not export it.
+<code>dumpbin /symbols foo.obj</code> and <code>undname</code> play the role of <code>nm -C</code>.</p>
+<h3 id="24-msbuild-and-cmake-on-windows">2.4 MSBuild and CMake on Windows<a class="headerlink" href="#24-msbuild-and-cmake-on-windows" title="Permanent link">&para;</a></h3>
+<p><strong>MSBuild</strong> reads XML project files: a <code>.sln</code> lists <code>.vcxproj</code> projects; each <code>.vcxproj</code> lists
+sources and per-configuration settings (<code>Debug|x64</code>, <code>Release|x64</code>), usually inheriting from
+<code>.props</code> property sheets. From a Developer prompt:</p>
+<div class="language-bat highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>msbuild tcpkv.sln -p:Configuration=Release -p:Platform=x64 -m -v:minimal
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>msbuild tcpkv.vcxproj -t:Rebuild -p:Configuration=Debug -p:Platform=x64
+</span></code></pre></div>
+<p>In Azure Pipelines, the <code>VSBuild@1</code> or <code>MSBuild@1</code> task runs the same command and <code>VSTest@2</code> runs
+tests (module 09).</p>
+<p><strong>CMake on Windows</strong> has two families of generators:</p>
+<div class="language-bat highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">:</span><span class="c1">: Visual Studio generator: multi-config. Produces a .sln you can open; config chosen at build time.</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>cmake -S . -B build -G <span class="s2">"Visual Studio 17 2022"</span> -A x64
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cmake --build build --config Release --parallel
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>ctest --test-dir build -C Release --output-on-failure
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">:</span><span class="c1">: Ninja + MSVC: single-config, faster, the same commands as Linux. Run from a Developer prompt.</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>cmake -S . -B build/ninja -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>cmake --build build/ninja
+</span></code></pre></div>
+<p>Visual Studio's "Open Folder" reads <code>CMakePresets.json</code> directly, so the presets from module 04
+work on Windows with a few extra entries:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"windows-msvc"</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="nt">"displayName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MSVC x64 (Ninja)"</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="nt">"inherits"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base"</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="nt">"condition"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"equals"</span><span class="p">,</span><span class="w"> </span><span class="nt">"lhs"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${hostSystemName}"</span><span class="p">,</span><span class="w"> </span><span class="nt">"rhs"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="nt">"architecture"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"x64"</span><span class="p">,</span><span class="w"> </span><span class="nt">"strategy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"external"</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="nt">"cacheVariables"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nt">"CMAKE_C_COMPILER"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cl"</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nt">"CMAKE_CXX_COMPILER"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cl"</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="nt">"CMAKE_BUILD_TYPE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug"</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="nt">"CMAKE_TOOLCHAIN_FILE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Portable CMake for both compilers keeps compiler-specific flags behind generator expressions, as
+<code>cmake/CompilerWarnings.cmake</code> in tcpkv does:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">target_compile_options</span><span class="p">(</span><span class="s">tcpkv_core</span><span class="w"> </span><span class="s">PRIVATE</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="o">$&lt;</span><span class="nv">$&lt;CXX_COMPILER_ID:MSVC</span><span class="o">&gt;</span><span class="s">:/W4</span><span class="w"> </span><span class="s">/WX</span><span class="w"> </span><span class="s">/permissive-</span><span class="w"> </span><span class="s">/Zc:__cplusplus</span><span class="w"> </span><span class="s">/utf-8&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="o">$&lt;</span><span class="nv">$&lt;NOT:$&lt;CXX_COMPILER_ID:MSVC</span><span class="o">&gt;</span><span class="s">&gt;:-Wall</span><span class="w"> </span><span class="s">-Wextra</span><span class="w"> </span><span class="s">-Wpedantic</span><span class="w"> </span><span class="s">-Werror&gt;</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nb">set_property</span><span class="p">(</span><span class="s">TARGET</span><span class="w"> </span><span class="s">tcpkv_core</span><span class="w"> </span><span class="s">PROPERTY</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="s">MSVC_RUNTIME_LIBRARY</span><span class="w"> </span><span class="s2">"MultiThreaded$&lt;$&lt;CONFIG:Debug&gt;:Debug&gt;DLL"</span><span class="p">)</span><span class="w">   </span><span class="c"># /MD or /MDd</span>
+</span></code></pre></div>
+<p>tcpkv itself uses POSIX sockets and would need a Winsock port to build on Windows: <code>WSAStartup</code>
+once, <code>SOCKET</code> (an unsigned handle, compare with <code>INVALID_SOCKET</code> not <code>&lt; 0</code>), <code>closesocket</code> instead
+of <code>close</code>, <code>WSAGetLastError()</code> instead of <code>errno</code>, <code>ioctlsocket(FIONBIO)</code> instead of <code>fcntl</code>, no
+<code>SIGPIPE</code> (send returns <code>WSAECONNRESET</code>), and <code>ws2_32.lib</code> in the link. That is a good
+exercise (section 6).</p>
+<h3 id="25-vcpkg">2.5 vcpkg<a class="headerlink" href="#25-vcpkg" title="Permanent link">&para;</a></h3>
+<p>vcpkg is Microsoft's source-based C and C++ package manager. It works on Windows, Linux and macOS,
+and integrates with CMake through a toolchain file.</p>
+<p><strong>Manifest mode</strong> (recommended): a <code>vcpkg.json</code> in the project root declares dependencies, and
+CMake installs them during configure into <code>build/vcpkg_installed</code>.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tcpkv"</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.1.0"</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"gtest"</span><span class="p">,</span><span class="w"> </span><span class="s2">"fmt"</span><span class="p">,</span><span class="w"> </span><span class="s2">"libpq"</span><span class="p">,</span><span class="w"> </span><span class="s2">"hiredis"</span><span class="w"> </span><span class="p">],</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">"builtin-baseline"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;commit sha of the vcpkg registry, pins every port version&gt;"</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/microsoft/vcpkg.git<span class="w"> </span>~/vcpkg<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>~/vcpkg/bootstrap-vcpkg.sh<span class="w">   </span><span class="c1"># .bat on Windows</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">VCPKG_ROOT</span><span class="o">=</span>~/vcpkg
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>cmake<span class="w"> </span>-S<span class="w"> </span>.<span class="w"> </span>-B<span class="w"> </span>build<span class="w"> </span>-G<span class="w"> </span>Ninja<span class="w"> </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span><span class="nv">$VCPKG_ROOT</span>/scripts/buildsystems/vcpkg.cmake
+</span></code></pre></div>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">find_package</span><span class="p">(</span><span class="s">fmt</span><span class="w"> </span><span class="s">CONFIG</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">tcpkv_core</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">fmt::fmt</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Triplets</strong> name the target platform and linkage: <code>x64-windows</code> (DLLs, <code>/MD</code>),
+<code>x64-windows-static</code> (static libs, <code>/MT</code>), <code>x64-windows-static-md</code> (static libs, <code>/MD</code>),
+<code>x64-linux</code> (static by default). Choose with <code>-DVCPKG_TARGET_TRIPLET=...</code>. Pick the triplet that
+matches your runtime library choice or you are back at LNK2038.</p>
+<p><strong>Binary caching</strong> stores built packages (locally under <code>%LOCALAPPDATA%\vcpkg\archives</code> or
+<code>~/.cache/vcpkg/archives</code>, or in NuGet feeds / cloud storage) keyed by a hash of the port, its
+dependencies, the triplet and the compiler. In CI, caching that directory turns a 20-minute
+dependency build into seconds.</p>
+<p><strong>Classic mode</strong> (<code>vcpkg install fmt:x64-windows</code> into a global tree) is what older projects use;
+it cannot pin versions per project. Conan is the other major choice: binary packages, a Python
+recipe language, more flexible, more to learn. On Linux, <code>apt install libfmt-dev</code> is the third
+choice, fine for tools, poor for reproducible builds (versions follow the distro).</p>
+<h3 id="26-visual-studio-debugger-the-features-worth-knowing">2.6 Visual Studio debugger: the features worth knowing<a class="headerlink" href="#26-visual-studio-debugger-the-features-worth-knowing" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Conditional breakpoints</strong>: right-click a breakpoint, Conditions: <code>key == "acct42"</code> or hit
+  count <code>&gt;= 1000</code>. GDB: <code>break store.cpp:40 if ...</code>, <code>ignore</code>.</li>
+<li><strong>Tracepoints</strong> (Actions: "Log a message", continue execution): <code>Store::set key={key} tid=$TID</code>.
+  printf debugging without rebuilding. GDB: <code>dprintf</code>.</li>
+<li><strong>Data breakpoints</strong> (Debug &gt; New Breakpoint &gt; Data Breakpoint): break when 1, 2, 4 or 8 bytes
+  at an address change. Uses CPU debug registers, so at most four (x86-64). The tool for "who is
+  corrupting this field". GDB: <code>watch -l</code>.</li>
+<li><strong>Threads, Parallel Stacks, Parallel Watch</strong> windows: all threads' stacks merged into a graph;
+  freeze and thaw threads to force an interleaving. GDB: <code>info threads</code>, <code>thread apply all bt</code>,
+  <code>set scheduler-locking on</code>.</li>
+<li><strong>Exception Settings</strong> (Ctrl+Alt+E): break on first-chance C++ exceptions or Win32 exceptions
+  such as <code>0xC0000005</code> access violation, before any handler runs. GDB: <code>catch throw</code>,
+  <code>handle SIGSEGV stop</code>.</li>
+<li><strong>Watch format specifiers</strong>: <code>value,x</code> (hex), <code>ptr,10</code> (show a pointer as a 10-element array),
+  <code>str,s8</code> (UTF-8 string), <code>var,!</code> (raw, bypass visualizers). GDB: <code>p/x</code>, <code>p *ptr@10</code>.</li>
+<li><strong>Natvis</strong> files (<code>.natvis</code>) define how your types display in the debugger; GDB's equivalent is
+  Python pretty-printers.</li>
+<li><strong>Symbols</strong>: Tools &gt; Options &gt; Debugging &gt; Symbols. Add the Microsoft symbol server and your own
+  symbol store. "Just My Code" hides library frames; turn it off when a crash is inside the CRT.</li>
+<li><strong>Diagnostic Tools</strong>: CPU usage, memory snapshots with diffing (heap growth between two points).
+  Linux: perf, heaptrack, Massif (module 07).</li>
+<li><strong>Open a dump file</strong>: File &gt; Open &gt; a <code>.dmp</code>, then "Debug with Native Only". Set the symbol and
+  source paths first. Linux: <code>gdb ./tcpkv core.1234</code>.</li>
+<li><strong>Attach to Process</strong> (Ctrl+Alt+P), including remote debugging with <code>msvsmon.exe</code>. Linux:
+  <code>gdb -p PID</code>, <code>gdbserver</code>. Visual Studio can also debug Linux processes over SSH and WSL with
+  its CMake support, which is worth knowing if you keep the IDE.</li>
+</ul>
+<h3 id="27-windbg-windbg-preview-now-just-windbg">2.7 WinDbg (WinDbg Preview, now just "WinDbg")<a class="headerlink" href="#27-windbg-windbg-preview-now-just-windbg" title="Permanent link">&para;</a></h3>
+<p>The modern WinDbg from the Microsoft Store or <code>winget install Microsoft.WinDbg</code> has the same
+engine as classic WinDbg with a better UI, a data-model command <code>dx</code>, JavaScript extensions and
+Time Travel Debugging. The deep material, including dump analysis walkthroughs, is in
+<code>05_Memory_Debugging_RCA/07_windbg_and_windows_crash_dumps.md</code>. Command reference with GDB
+equivalents:</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>WinDbg</th>
+<th>GDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Use Microsoft public symbols</td>
+<td><code>.symfix</code> then <code>.reload</code></td>
+<td><code>debuginfod</code> (<code>set debuginfod enabled on</code>)</td>
+</tr>
+<tr>
+<td>Add own symbols</td>
+<td><code>.sympath+ C:\build\pdb</code></td>
+<td><code>set debug-file-directory</code>, <code>symbol-file</code></td>
+</tr>
+<tr>
+<td>Automatic triage</td>
+<td><code>!analyze -v</code></td>
+<td>(none built in; <code>bt</code> + reading)</td>
+</tr>
+<tr>
+<td>Switch to the exception context</td>
+<td><code>.ecxr</code></td>
+<td>(core already stops at the signal)</td>
+</tr>
+<tr>
+<td>Show exception record</td>
+<td><code>.exr -1</code></td>
+<td><code>p $_siginfo</code></td>
+</tr>
+<tr>
+<td>Current stack</td>
+<td><code>k</code>, <code>kb</code>, <code>kp</code> (with params), <code>kn</code> (frame numbers)</td>
+<td><code>bt</code>, <code>bt full</code></td>
+</tr>
+<tr>
+<td>All threads' stacks</td>
+<td><code>~*k</code></td>
+<td><code>thread apply all bt</code></td>
+</tr>
+<tr>
+<td>Switch thread</td>
+<td><code>~3s</code></td>
+<td><code>thread 3</code></td>
+</tr>
+<tr>
+<td>Select frame, locals</td>
+<td><code>.frame 2</code>, <code>dv</code></td>
+<td><code>frame 2</code>, <code>info locals</code></td>
+</tr>
+<tr>
+<td>Display a type</td>
+<td><code>dt tcpkv!Store 0x1234</code></td>
+<td><code>ptype</code>, <code>p *(Store*)0x1234</code></td>
+</tr>
+<tr>
+<td>Loaded modules</td>
+<td><code>lm</code>, <code>lmvm tcpkv</code></td>
+<td><code>info sharedlibrary</code></td>
+</tr>
+<tr>
+<td>Critical sections / locks</td>
+<td><code>!locks</code>, <code>!cs -l</code></td>
+<td><code>info threads</code> + <code>p mutex</code> (<code>__owner</code> field)</td>
+</tr>
+<tr>
+<td>Heap state</td>
+<td><code>!heap -s</code>, <code>!heap -p -a ADDR</code> (with page heap)</td>
+<td>ASan, Valgrind, <code>malloc_info</code></td>
+</tr>
+<tr>
+<td>Memory map</td>
+<td><code>!address -summary</code></td>
+<td><code>info proc mappings</code>, <code>/proc/PID/maps</code></td>
+</tr>
+<tr>
+<td>CPU time per thread</td>
+<td><code>!runaway</code></td>
+<td><code>top -H -p PID</code></td>
+</tr>
+<tr>
+<td>Write a dump</td>
+<td><code>.dump /ma C:\dumps\x.dmp</code></td>
+<td><code>gcore PID</code> / <code>generate-core-file</code></td>
+</tr>
+<tr>
+<td>Record and replay</td>
+<td>Time Travel Debugging (TTD)</td>
+<td><code>rr record</code> / <code>rr replay</code>, GDB <code>record</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Page heap</strong> (<code>gflags /p /enable tcpkv.exe /full</code>, or Application Verifier) puts every
+allocation at the end of a page followed by a guard page, so a heap overrun faults at the
+offending instruction instead of corrupting memory silently. It is the Windows ancestor of what
+ASan does with redzones.</p>
+<h3 id="28-procdump-and-windows-error-reporting">2.8 ProcDump and Windows Error Reporting<a class="headerlink" href="#28-procdump-and-windows-error-reporting" title="Permanent link">&para;</a></h3>
+<p>ProcDump (Sysinternals) writes dumps of a running process when a condition triggers:</p>
+<div class="language-bat highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>procdump -accepteula -ma -e tcpkv.exe C:\dumps            :: full dump on unhandled exception
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>procdump -ma -e 1 -f C0000005 tcpkv.exe C:\dumps          :: on first-chance access violation
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>procdump -ma -h tcpkv.exe C:\dumps                        :: hung window (GUI apps)
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>procdump -ma -c 90 -s 10 -n 3 tcpkv.exe C:\dumps          :: CPU <span class="p">&gt;</span>= 90 % for 10 s, 3 dumps
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>procdump -ma -m 2048 tcpkv.exe C:\dumps                   :: commit memory <span class="p">&gt;</span>= 2048 MB
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>procdump -ma -w tcpkv.exe C:\dumps                        :: wait for the process to start
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>procdump -ma -i C:\dumps                                  :: install as the system post-mortem debugger
+</span></code></pre></div>
+<p>For a service on a customer machine, the zero-install alternative is <strong>WER LocalDumps</strong>:
+registry key <code>HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\tcpkv.exe</code>
+with <code>DumpFolder</code>, <code>DumpCount</code> and <code>DumpType = 2</code> (full). Every crash then leaves a <code>.dmp</code>.</p>
+<p>Linux equivalents: <code>ulimit -c unlimited</code> plus <code>/proc/sys/kernel/core_pattern</code>, or
+<code>systemd-coredump</code> with <code>coredumpctl list</code> / <code>coredumpctl gdb</code>; <code>gcore PID</code> for a dump of a live
+process. The "dump when CPU is high" trigger has no standard tool; a script with <code>top -b</code> and
+<code>gcore</code> does it, and <code>perf record</code> is usually the better answer for CPU problems anyway.</p>
+<h3 id="29-dumpbin-and-the-rest-of-the-inspection-kit">2.9 dumpbin and the rest of the inspection kit<a class="headerlink" href="#29-dumpbin-and-the-rest-of-the-inspection-kit" title="Permanent link">&para;</a></h3>
+<div class="language-bat highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dumpbin /dependents tcpkv.exe        :: DLLs it imports                     (ldd, readelf -d)
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>dumpbin /imports tcpkv.exe           :: every imported function            (nm -D --undefined-only)
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>dumpbin /exports tcpkv_core.dll      :: exported functions                 (nm -D --defined-only)
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>dumpbin /headers tcpkv.exe           :: PE headers, machine, subsystem, debug directory with PDB path (readelf -h -l)
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>dumpbin /symbols store.obj           :: COFF symbol table of an object     (nm store.o)
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>dumpbin /linkermember tcpkv_core.lib :: symbols indexed in a static library (nm -s libx.a)
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>dumpbin /disasm /section:.text x.obj :: disassembly                        (objdump -d)
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>dumpbin /pdbpath tcpkv.exe           :: which PDB the binary expects       (readelf -n: build-id)
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>undname ?add@@YAHHH@Z                :: int __cdecl add(int,int)           (c++filt _Z3addii)
+</span></code></pre></div>
+<p>Other tools and their Linux counterparts:</p>
+<table>
+<thead>
+<tr>
+<th>Windows</th>
+<th>Linux</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dependencies (lucasg), Dependency Walker</td>
+<td><code>ldd</code>, <code>lddtree</code></td>
+<td>DLL / .so resolution</td>
+</tr>
+<tr>
+<td>Process Explorer</td>
+<td><code>htop</code>, <code>/proc</code>, <code>lsof</code></td>
+<td>processes, handles, loaded modules</td>
+</tr>
+<tr>
+<td><code>handle.exe</code>, Resource Monitor</td>
+<td><code>lsof -p PID</code>, <code>ls -l /proc/PID/fd</code></td>
+<td>open files and sockets</td>
+</tr>
+<tr>
+<td>Process Monitor</td>
+<td><code>strace</code>, <code>inotifywait</code>, <code>fatrace</code></td>
+<td>file, registry, process activity</td>
+</tr>
+<tr>
+<td>TCPView, <code>netstat -ano</code></td>
+<td><code>ss -tanp</code></td>
+<td>sockets per process</td>
+</tr>
+<tr>
+<td>ETW, WPR + WPA, PerfView</td>
+<td><code>perf</code>, <code>bpftrace</code>, flame graphs</td>
+<td>CPU and system tracing</td>
+</tr>
+<tr>
+<td>Application Verifier, page heap</td>
+<td>ASan, Valgrind</td>
+<td>heap and handle misuse</td>
+</tr>
+<tr>
+<td>Event Viewer</td>
+<td><code>journalctl</code></td>
+<td>system and service logs</td>
+</tr>
+<tr>
+<td>Services (<code>sc.exe</code>, <code>services.msc</code>)</td>
+<td><code>systemctl</code></td>
+<td>service management</td>
+</tr>
+<tr>
+<td>Task Manager</td>
+<td><code>top</code>, <code>htop</code></td>
+<td>overview</td>
+</tr>
+</tbody>
+</table>
+<h3 id="210-the-interview-table">2.10 The interview table<a class="headerlink" href="#210-the-interview-table" title="Permanent link">&para;</a></h3>
+<p>The one-page comparison to know cold:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Windows</th>
+<th>Linux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compiler</td>
+<td><code>cl.exe</code> (MSVC), also <code>clang-cl</code></td>
+<td><code>gcc</code>/<code>g++</code>, <code>clang</code>/<code>clang++</code></td>
+</tr>
+<tr>
+<td>Build system</td>
+<td>MSBuild <code>.sln</code>/<code>.vcxproj</code></td>
+<td>Make, Ninja; CMake generates for both</td>
+</tr>
+<tr>
+<td>Warnings</td>
+<td><code>/W4 /WX</code></td>
+<td><code>-Wall -Wextra -Werror</code></td>
+</tr>
+<tr>
+<td>Optimised with symbols</td>
+<td><code>/O2 /Zi</code> + <code>/DEBUG /OPT:REF /OPT:ICF</code></td>
+<td><code>-O2 -g</code> (RelWithDebInfo)</td>
+</tr>
+<tr>
+<td>Binary format</td>
+<td>PE/COFF</td>
+<td>ELF</td>
+</tr>
+<tr>
+<td>Debug info</td>
+<td>separate <code>.pdb</code>, matched by GUID + age</td>
+<td>DWARF in the binary or split, matched by build-id</td>
+</tr>
+<tr>
+<td>Static library</td>
+<td><code>.lib</code></td>
+<td><code>.a</code></td>
+</tr>
+<tr>
+<td>Shared library</td>
+<td><code>.dll</code> + import <code>.lib</code>; nothing exported by default</td>
+<td><code>.so</code>; everything exported by default</td>
+</tr>
+<tr>
+<td>Runtime library choice</td>
+<td><code>/MD</code> vs <code>/MT</code>; one CRT heap per module with <code>/MT</code></td>
+<td>one glibc per process</td>
+</tr>
+<tr>
+<td>Library search</td>
+<td>app dir, system dirs, <code>PATH</code></td>
+<td>rpath, <code>LD_LIBRARY_PATH</code>, ld.so.cache</td>
+</tr>
+<tr>
+<td>Data model</td>
+<td>LLP64: <code>long</code> is 32-bit</td>
+<td>LP64: <code>long</code> is 64-bit</td>
+</tr>
+<tr>
+<td><code>wchar_t</code></td>
+<td>16-bit, UTF-16 APIs (<code>CreateFileW</code>)</td>
+<td>32-bit; APIs take UTF-8 <code>char*</code></td>
+</tr>
+<tr>
+<td>x64 calling convention</td>
+<td>args in RCX, RDX, R8, R9; 32-byte shadow space; no red zone</td>
+<td>args in RDI, RSI, RDX, RCX, R8, R9; 128-byte red zone</td>
+</tr>
+<tr>
+<td>Name mangling</td>
+<td><code>?add@@YAHHH@Z</code> (<code>undname</code>)</td>
+<td><code>_Z3addii</code> (<code>c++filt</code>)</td>
+</tr>
+<tr>
+<td>Crash mechanism</td>
+<td>SEH exception (<code>0xC0000005</code>)</td>
+<td>signal (<code>SIGSEGV</code>)</td>
+</tr>
+<tr>
+<td>Crash dump</td>
+<td>minidump / full dump <code>.dmp</code> (WER, ProcDump)</td>
+<td>core file (<code>core_pattern</code>, systemd-coredump)</td>
+</tr>
+<tr>
+<td>Debugger</td>
+<td>Visual Studio, WinDbg</td>
+<td>GDB, LLDB</td>
+</tr>
+<tr>
+<td>Memory errors</td>
+<td>ASan (<code>/fsanitize=address</code>), page heap, App Verifier</td>
+<td>ASan, UBSan, TSan, MSan, Valgrind</td>
+</tr>
+<tr>
+<td>Profiler</td>
+<td>VS Profiler, ETW/WPA, PerfView</td>
+<td><code>perf</code>, Valgrind callgrind</td>
+</tr>
+<tr>
+<td>Syscall tracing</td>
+<td>Process Monitor, ETW</td>
+<td><code>strace</code>, <code>perf trace</code></td>
+</tr>
+<tr>
+<td>Handles / fds</td>
+<td><code>HANDLE</code>, <code>CloseHandle</code></td>
+<td><code>int</code> fd, <code>close</code></td>
+</tr>
+<tr>
+<td>Last error</td>
+<td><code>GetLastError()</code>, <code>WSAGetLastError()</code></td>
+<td><code>errno</code></td>
+</tr>
+<tr>
+<td>Process creation</td>
+<td><code>CreateProcessW</code></td>
+<td><code>fork</code> + <code>exec</code>, <code>posix_spawn</code></td>
+</tr>
+<tr>
+<td>Threads</td>
+<td><code>CreateThread</code>, <code>_beginthreadex</code>, <code>std::thread</code></td>
+<td><code>pthread_create</code>, <code>std::thread</code></td>
+</tr>
+<tr>
+<td>Locks</td>
+<td><code>CRITICAL_SECTION</code>, <code>SRWLOCK</code></td>
+<td><code>pthread_mutex_t</code> (futex)</td>
+</tr>
+<tr>
+<td>Scalable I/O</td>
+<td>IOCP (completion-based)</td>
+<td>epoll (readiness), io_uring (completion)</td>
+</tr>
+<tr>
+<td>Services</td>
+<td>Service Control Manager</td>
+<td>systemd</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>Event Log, ETW</td>
+<td>journald, syslog</td>
+</tr>
+<tr>
+<td>Memory commit</td>
+<td>committed at allocation, fails early</td>
+<td>overcommit, OOM killer later</td>
+</tr>
+<tr>
+<td>Package manager</td>
+<td>vcpkg, NuGet, Conan</td>
+<td>vcpkg, Conan, apt</td>
+</tr>
+<tr>
+<td>Shell</td>
+<td>PowerShell, cmd</td>
+<td>bash</td>
+</tr>
+<tr>
+<td>CI</td>
+<td>Azure Pipelines (<code>VSBuild@1</code>, <code>VSTest@2</code>)</td>
+<td>GitHub Actions, Azure Pipelines on Linux agents</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-code">3. Code<a class="headerlink" href="#3-code" title="Permanent link">&para;</a></h2>
+<p>No new files in <code>code/</code>; the examples are inline because they need a Windows machine. To try the
+Windows side of tcpkv's build:</p>
+<ol>
+<li>Install Visual Studio 2022 Community with the "Desktop development with C++" workload (it
+   includes CMake, Ninja, vcpkg and the Windows SDK).</li>
+<li>Open a "Developer PowerShell for VS 2022" in a clone of your tcpkv repository on the Windows
+   filesystem (not <code>\\wsl$</code>: builds over the 9P bridge are slow, the same reason module 01 gave
+   for <code>/mnt/c</code> in the other direction).</li>
+<li>Build the protocol library and tests only (the server needs the Winsock port):</li>
+</ol>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">cmake</span> <span class="n">-S</span> <span class="p">.</span> <span class="n">-B</span> <span class="n">build</span><span class="p">/</span><span class="n">vs</span> <span class="n">-G</span> <span class="s2">"Visual Studio 17 2022"</span> <span class="n">-A</span> <span class="n">x64</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">cmake</span> <span class="p">-</span><span class="n">-build</span> <span class="n">build</span><span class="p">/</span><span class="n">vs</span> <span class="p">-</span><span class="n">-config</span> <span class="n">Debug</span> <span class="p">-</span><span class="n">-target</span> <span class="n">tcpkv_tests</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">ctest</span> <span class="p">-</span><span class="n">-test-dir</span> <span class="n">build</span><span class="p">/</span><span class="n">vs</span> <span class="n">-C</span> <span class="n">Debug</span> <span class="p">-</span><span class="n">-output-on-failure</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">dumpbin</span> <span class="p">/</span><span class="n">dependents</span> <span class="n">build</span><span class="p">\</span><span class="n">vs</span><span class="p">\</span><span class="n">tests</span><span class="p">\</span><span class="n">Debug</span><span class="p">\</span><span class="n">tcpkv_tests</span><span class="p">.</span><span class="n">exe</span>     <span class="c"># expect MSVCP140D.dll, VCRUNTIME140D.dll, ucrtbased.dll</span>
+</span></code></pre></div>
+<p>The <code>TCPKV_WERROR</code> option in tcpkv's <code>cmake/CompilerWarnings.cmake</code> already maps to <code>/WX</code> for
+MSVC, and the warning set to <code>/W4 /permissive-</code>. MSVC and GCC do not flag exactly the same
+constructs, so expect some warnings GCC did not give (C4267 <code>size_t</code> to <code>int</code>, C4996 "unsafe"
+CRT functions, for example). Fixing them is exercise 2.</p>
+<p>A minimal Winsock initialisation for the port, showing the differences in one place:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cp">#ifdef _WIN32</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cp">#  define WIN32_LEAN_AND_MEAN</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="cp">#</span><span class="w">  </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;winsock2.h&gt;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="cp">#</span><span class="w">  </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;ws2tcpip.h&gt;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="cp">#  pragma comment(lib, "ws2_32.lib")         </span><span class="c1">// or target_link_libraries(... ws2_32)</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">using</span><span class="w"> </span><span class="n">socket_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SOCKET</span><span class="p">;</span><span class="w">                       </span><span class="c1">// unsigned: never compare with &lt; 0</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="k">constexpr</span><span class="w"> </span><span class="n">socket_t</span><span class="w"> </span><span class="n">kInvalidSocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INVALID_SOCKET</span><span class="p">;</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">last_socket_error</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">WSAGetLastError</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">close_socket</span><span class="p">(</span><span class="n">socket_t</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">closesocket</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="k">struct</span><span class="w"> </span><span class="nc">WinsockInit</span><span class="w"> </span><span class="p">{</span><span class="w">                           </span><span class="c1">// RAII: one per process, before any socket call</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="n">WinsockInit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">WSADATA</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">WSAStartup</span><span class="p">(</span><span class="n">MAKEWORD</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">abort</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="o">~</span><span class="n">WinsockInit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">WSACleanup</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="p">};</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="cp">#else</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="cp">#</span><span class="w">  </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;sys/socket.h&gt;</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="cp">#</span><span class="w">  </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="cp">#</span><span class="w">  </span><span class="cp">include</span><span class="w"> </span><span class="cpf">&lt;cerrno&gt;</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="k">using</span><span class="w"> </span><span class="n">socket_t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="k">constexpr</span><span class="w"> </span><span class="n">socket_t</span><span class="w"> </span><span class="n">kInvalidSocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">last_socket_error</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">errno</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">close_socket</span><span class="p">(</span><span class="n">socket_t</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">::</span><span class="n">close</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="k">struct</span><span class="w"> </span><span class="nc">WinsockInit</span><span class="w"> </span><span class="p">{};</span><span class="w">                         </span><span class="c1">// nothing to do on POSIX</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="cp">#endif</span>
+</span></code></pre></div>
+<h2 id="4-under-the-hood-senior-level">4. Under the hood (senior-level)<a class="headerlink" href="#4-under-the-hood-senior-level" title="Permanent link">&para;</a></h2>
+<p><strong>PE vs ELF loading.</strong> A PE image has an <strong>import directory</strong>: for each DLL, a list of
+functions, and an <strong>Import Address Table</strong> (IAT) the loader fills with addresses at load time
+(all at once, unless delay-loaded). Calls go through <code>call [IAT slot]</code>. ELF uses the <strong>GOT</strong>
+(global offset table) for data and function addresses and the <strong>PLT</strong> (procedure linkage table)
+stubs for calls, traditionally resolved lazily on first call; <code>-Wl,-z,now</code> (full RELRO) resolves
+at load time like Windows. Both then make the table read-only. ELF symbol lookup is by name across
+all loaded objects in order (<strong>symbol interposition</strong>: <code>LD_PRELOAD</code> can replace <code>malloc</code> for the
+whole process). Windows lookup is two-level: each import names the DLL it comes from, so two DLLs
+can export the same name without conflict and there is no global interposition.</p>
+<p><strong>Default visibility and its consequences.</strong> Because ELF exports everything by default and
+resolves by global name, an <code>.so</code> built without <code>-fvisibility=hidden</code> has a huge dynamic symbol
+table, slower loading, and calls to its own exported functions go through the PLT (they could be
+interposed). Windows DLLs export only what is marked, so this problem does not arise; the cost is
+the <code>dllexport</code>/<code>dllimport</code> macro dance.</p>
+<p><strong>One heap or many.</strong> With <code>/MT</code>, each DLL and the EXE carry their own copy of the CRT, each with
+its own heap. Memory allocated by <code>malloc</code> in one module and freed by <code>free</code> in another goes to the
+wrong heap: corruption or a debug assertion. The same applies to <code>FILE*</code> and to <code>std::string</code>
+crossing DLL boundaries. The rules on Windows: free memory in the module that allocated it, or use
+<code>/MD</code> everywhere, or pass only C types across DLL boundaries. On Linux one <code>libc.so.6</code> serves the
+whole process and the problem does not exist (unless you statically link libstdc++ into several
+<code>.so</code> files, which recreates a milder version of it).</p>
+<p><strong>PDB vs DWARF matching.</strong> The linker writes a CodeView debug directory entry (<code>RSDS</code>) into the PE
+containing the PDB's GUID, an age, and the PDB path. The debugger only loads a PDB whose GUID and
+age match exactly; that is why you must archive the PDB of every shipped build (a <strong>symbol store</strong>,
+<code>symstore.exe add</code>, served over HTTP). Linux's equivalent is the <strong>build-id</strong> note
+(<code>readelf -n</code>), a hash of the binary's contents; GDB finds separate debug files by build-id under
+<code>/usr/lib/debug/.build-id/</code> or through a <strong>debuginfod</strong> server. CI archiving the unstripped
+binary per commit (module 09) is the low-tech version.</p>
+<p><strong>SEH vs signals.</strong> A Windows access violation is a structured exception: the kernel builds an
+exception record and context, and user-mode dispatch walks registered handlers (table-based on
+x64, from the <code>.pdata</code> section), which <code>__try/__except</code> and C++ <code>catch(...)</code> with <code>/EHa</code> can catch,
+first chance then second chance. A Linux <code>SIGSEGV</code> is a signal delivered to a handler with a
+<code>ucontext_t</code>; C++ exceptions are a separate mechanism (Itanium ABI unwinding with <code>.eh_frame</code>)
+and cannot catch it. Both end with a dump/core if unhandled. "Catching" access violations to keep
+a server running is a bad idea on both: the process state is unknown.</p>
+<p><strong>LLP64 vs LP64.</strong> Windows kept <code>long</code> at 32 bits on 64-bit platforms for source compatibility
+with Win32 structs; Linux made <code>long</code> 64-bit. Code that stores a pointer or a <code>size_t</code> in a
+<code>long</code> works on Linux and truncates on Windows; code that assumes <code>long</code> is 32-bit for a file
+format works on Windows and breaks on Linux. Use <code>int64_t</code>, <code>uint32_t</code>, <code>size_t</code>, <code>intptr_t</code>.</p>
+<p><strong>Calling conventions</strong> matter when reading crash dumps without full symbols: on Windows x64
+the first four integer arguments are in RCX, RDX, R8, R9, and the caller reserves 32 bytes of
+shadow space; on Linux x86-64 (System V) the first six are in RDI, RSI, RDX, RCX, R8, R9, and
+leaf functions may use a 128-byte red zone below RSP. Knowing this lets you recover a <code>this</code>
+pointer from a register in a release-build dump on either platform.</p>
+<h2 id="5-in-production">5. In production<a class="headerlink" href="#5-in-production" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Your experience, framed.</strong> "Our core-banking application server is built with MSBuild in
+  Azure Pipelines, crashes at customer sites arrive as WER or ProcDump dumps, and I analyse them in
+  WinDbg with our symbol store." Then: "On Linux the same pipeline is CMake and Ninja in GitHub
+  Actions, crashes are cores collected by systemd-coredump, and I analyse them in GDB with the
+  archived unstripped binary or debuginfod." That pair of sentences answers half the Linux questions
+  an interviewer will ask a Windows developer.</li>
+<li><strong>Missing redistributable.</strong> A build that runs on every developer machine fails on a clean server
+  with "VCRUNTIME140.dll was not found". Developer machines have Visual Studio. Ship the VC++
+  redistributable with the installer, or use <code>/MT</code> for a self-contained exe. The Linux version is
+  the "cannot open shared object file" from module 09's 3 AM story: same root cause, different
+  runtime.</li>
+<li><strong>Symbols you did not keep.</strong> A customer sends a dump from build 4.2.17; nobody archived its PDB.
+  Rebuilding the same source does not help: the new PDB has a different GUID. You are reduced to
+  reading raw assembly and register values. Every release pipeline must publish PDBs (or
+  unstripped ELF / <code>.debug</code> files) to a symbol store keyed by build, automatically.</li>
+<li><strong>Porting pitfalls in mixed teams.</strong> <code>long</code> size, <code>wchar_t</code> size, path separators and drive
+  letters, case-insensitive file names (an <code>#include "Store.hpp"</code> that works on Windows fails on
+  Linux), CRLF in shell scripts, <code>SOCKET</code> vs <code>int</code>, <code>closesocket</code>, missing <code>SIGPIPE</code> handling when
+  code moves from Windows to Linux, <code>localtime_s</code> vs <code>localtime_r</code>, <code>_stricmp</code> vs <code>strcasecmp</code>.
+  CI on both platforms catches them on the commit that introduces them.</li>
+<li><strong>ASan on MSVC</strong> is real and useful but narrower: no UBSan, TSan or LeakSanitizer in MSVC, and
+  it requires matching runtime libraries. Teams with Windows-only code often keep a Linux or
+  <code>clang-cl</code> CI job just to get the other sanitizers.</li>
+<li><strong>3 AM:</strong> the Windows service hangs at a customer. Before restarting it, take
+  <code>procdump -ma tcpkv.exe</code> (it does not kill the process), then restart. In WinDbg, <code>~*k</code> shows 40
+  threads blocked in <code>RtlEnterCriticalSection</code>; <code>!locks</code> names the owning thread, whose stack is
+  inside a logging call waiting on another lock held by thread 12: a lock-order inversion. On Linux
+  the identical procedure is <code>gcore PID</code> (or <code>gdb -batch -x scripts/dump_stacks.gdb -p PID</code>),
+  <code>systemctl restart</code>, then <code>thread apply all bt</code> and the mutex <code>__owner</code> field.</li>
+</ul>
+<h2 id="6-try-it">6. Try it<a class="headerlink" href="#6-try-it" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>(easy)</strong> On Windows, build any small C++ program in a Developer prompt with
+   <code>cl /std:c++17 /W4 /EHsc /Zi /O2 hello.cpp</code>, then run <code>dumpbin /headers</code>, <code>/dependents</code> and
+   <code>/pdbpath</code> on it. On WSL, do the same with <code>g++ -O2 -g</code> and <code>readelf -h</code>, <code>ldd</code>, <code>readelf -n</code>.
+   Done when you have a two-column table of what each command told you.</li>
+<li><strong>(medium)</strong> Build tcpkv's <code>tcpkv_core</code> and <code>tcpkv_tests</code> with the Visual Studio generator as in
+   section 3, at <code>/W4 /WX</code>. Fix every warning in a way that also compiles cleanly with GCC
+   <code>-Werror</code>. Done when both platforms build the tests with warnings as errors and all tests pass.</li>
+<li><strong>(medium)</strong> Reproduce LNK2038: build a static library with <code>/MT</code> and an executable with <code>/MD</code>
+   that links it. Then fix it by aligning <code>CMAKE_MSVC_RUNTIME_LIBRARY</code>. Done when you can explain
+   why Linux has no equivalent error.</li>
+<li><strong>(medium)</strong> Add a <code>vcpkg.json</code> with <code>fmt</code> to a copy of tcpkv, configure with the vcpkg toolchain
+   file on both Windows and WSL, and use <code>fmt::format</code> in <code>log_line</code>. Done when both builds succeed
+   from a clean checkout and you can name the triplet used on each.</li>
+<li><strong>(hard)</strong> Port <a href="https://github.com/khanshaki-r/c-cpp-systems-learning-path/blob/main/LEARNING_PATH/06_Linux_Toolchain_DevOps/code/tcpkv/src/main.cpp"><code>src/main.cpp</code></a> to Windows using the <code>socket_t</code> shim from section 3: Winsock init,
+   <code>closesocket</code>, <code>WSAGetLastError</code>, <code>SetConsoleCtrlHandler</code> for Ctrl-C instead of <code>sigaction</code>.
+   Done when the same <code>scripts/tcpkv_client.py --selftest</code> (run from Windows Python) passes against
+   the Windows build and the Linux build.</li>
+<li><strong>(hard)</strong> Crash the Windows build deliberately (null dereference on a <code>CRASH</code> command), capture
+   a dump with <code>procdump -ma -e</code>, open it in WinDbg, and run <code>.symfix; .reload; !analyze -v; .ecxr;
+   kp</code>. Then do the equivalent on WSL with <code>coredumpctl gdb</code>. Done when you have both stack traces
+   pointing at the same source line and can list each command's counterpart.</li>
+</ol>
+<h2 id="7-interview-questions">7. Interview questions<a class="headerlink" href="#7-interview-questions" title="Permanent link">&para;</a></h2>
+<p><strong>Q: How does linking against a DLL differ from linking against a shared object?</strong>
+On Windows you link against an import library (<code>.lib</code>) that tells the linker which DLL exports
+each symbol; at run time the loader fills the Import Address Table. Only explicitly exported
+symbols (<code>__declspec(dllexport)</code> or a <code>.def</code> file) are visible. On Linux you link against the
+<code>.so</code> itself, everything with default visibility is exported, calls go through PLT/GOT, and the
+loader searches rpath, <code>LD_LIBRARY_PATH</code> and the cache instead of the application directory.</p>
+<p><strong>Q: What does LNK2038 "mismatch detected for RuntimeLibrary" mean?</strong>
+Objects compiled with different C runtime options (<code>/MT</code> vs <code>/MD</code>, or Debug vs Release) are being
+linked into one module. Each choice selects a different CRT and STL build with different object
+layouts and heaps. Fix by using one runtime library for everything, in CMake with
+<code>CMAKE_MSVC_RUNTIME_LIBRARY</code>, and choosing the matching vcpkg triplet.</p>
+<p><strong>Q: What are /MD and /MT and which do you ship?</strong>
+<code>/MD</code> links the CRT and STL as DLLs shared by all modules (one heap, requires the VC++
+redistributable on the target); <code>/MT</code> links them statically into each module (self-contained, but
+each DLL gets its own heap, so memory and CRT objects must not cross DLL boundaries). For a product
+with several DLLs, <code>/MD</code> plus a redistributable is the usual choice; for a single tool exe, <code>/MT</code>.</p>
+<p><strong>Q: How do you get a crash dump from a production Windows service, and the Linux equivalent?</strong>
+Configure WER LocalDumps in the registry for the exe, or run ProcDump with <code>-ma -e</code>; for a hang,
+take <code>procdump -ma</code> on demand. Analyse in WinDbg with the archived PDB: <code>!analyze -v</code>, <code>.ecxr</code>,
+<code>kp</code>, <code>~*k</code>. On Linux: <code>ulimit -c</code>/<code>LimitCORE</code> plus systemd-coredump or <code>core_pattern</code>, <code>gcore</code>
+for live processes, and GDB with the unstripped binary or debuginfod.</p>
+<p><strong>Q: Why might code that works on Windows break on Linux (or the reverse) even with the same compiler family?</strong>
+Data model (<code>long</code> is 32-bit on Windows, 64-bit on Linux), <code>wchar_t</code> size, file-name case
+sensitivity, path separators, line endings, default symbol visibility, SIGPIPE on socket writes,
+different socket handle types and error retrieval, and APIs with <code>_s</code>/<code>_r</code> variants. Fixed-width
+integer types, CI on both platforms and portable wrappers catch these.</p>
+<p><strong>Q: What is vcpkg manifest mode and what is a triplet?</strong>
+Manifest mode declares a project's dependencies in <code>vcpkg.json</code> and pins versions with a
+<code>builtin-baseline</code>; CMake's vcpkg toolchain file installs them per project at configure time.
+A triplet names the target architecture, OS and linkage (<code>x64-windows</code>, <code>x64-windows-static</code>,
+<code>x64-linux</code>), and must match the runtime-library choice of the project.</p>
+<p><strong>Q: Compare WinDbg and GDB for a hang.</strong>
+Both attach to a live process or open a dump. WinDbg: <code>~*k</code> for all stacks, <code>!locks</code> to find
+critical-section owners, <code>!runaway</code> for CPU per thread. GDB: <code>thread apply all bt</code>, the mutex's
+<code>__owner</code> field for the owning thread's LWP, <code>top -H</code> for CPU per thread. The diagnosis is
+identical: find who holds the lock everyone waits for and what it is waiting for.</p>
+<h2 id="8-recap">8. Recap<a class="headerlink" href="#8-recap" title="Permanent link">&para;</a></h2>
+<ul>
+<li>MSVC = <code>cl</code> + <code>link</code> + <code>lib</code> + MSBuild; Linux = <code>g++</code> + <code>ld</code> + <code>ar</code> + Make/Ninja; CMake drives both.</li>
+<li><code>/W4 /WX /permissive- /EHsc /std:c++17</code> is the MSVC mirror of <code>-Wall -Wextra -Werror -std=c++17</code>.</li>
+<li><code>/MD</code> vs <code>/MT</code> must match across a module; LNK2038 is the symptom; Linux has one runtime per process.</li>
+<li>DLLs export nothing by default and link through import libraries; <code>.so</code> exports everything and links directly.</li>
+<li>LNK2019/LNK2001 = undefined reference; LNK2005 = multiple definition; <code>dumpbin</code>/<code>undname</code> = <code>nm</code>/<code>c++filt</code>.</li>
+<li>vcpkg manifest mode + toolchain file + matching triplet; cache binaries in CI.</li>
+<li>VS debugger: conditional breakpoints, tracepoints, data breakpoints, Parallel Stacks, exception settings.</li>
+<li>WinDbg: <code>.symfix; .reload; !analyze -v; .ecxr; kp; ~*k; !locks</code>; ProcDump <code>-ma -e</code>; WER LocalDumps.</li>
+<li>PDB matched by GUID + age, ELF debug info by build-id: archive symbols for every shipped build.</li>
+<li>LLP64 vs LP64, <code>wchar_t</code> 2 vs 4 bytes, SEH vs signals, IOCP vs epoll: the differences interviewers probe.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../11_linux_systems_programming_essentials/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 11. Linux systems programming essentials">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                11. Linux systems programming essentials
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../EXERCISES/" class="md-footer__link md-footer__link--next" aria-label="Next: Exercises">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Exercises
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/khanshaki-r" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../assets/progress.js"></script>
+      
+    
+  </body>
+</html>
